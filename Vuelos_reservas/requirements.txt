@@ -1,0 +1,21 @@
+# requirements.txt - Dependencias básicas para el proyecto
+
+# Django framework
+Django==4.2.7
+
+# PostgreSQL adapter
+psycopg2-binary==2.9.9
+
+# Para tareas asíncronas (correos)
+celery==5.3.4
+redis==5.0.1
+
+# Para obtener datos de vuelos
+requests==2.31.0
+beautifulsoup4==4.12.2
+
+# Utilidades adicionales
+python-decouple==3.8  # Para manejar variables de entorno
+
+# Para desarrollo (opcional)
+django-debug-toolbar==4.2.0  # Solo para debug

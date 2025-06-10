@@ -1,7 +1,22 @@
-<h2>Ingreso</h2>
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Entrar</button>
-</form>
-<a href="{% url 'registro' %}">¿No tienes cuenta? Regístrate aquí</a>
+<!-- templates/registration/ingreso.html -->
+{% extends "base.html" %}
+
+{% block title %}Ingreso{% endblock %}
+
+{% block content %}
+<div class="card mx-auto" style="max-width: 500px;">
+  <div class="card-body">
+    <h2 class="card-title mb-4">Ingreso</h2>
+
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-success w-100 mt-3">Entrar</button>
+    </form>
+
+    <div class="text-center mt-3">
+      <a href="{% url 'registro' %}">¿No tienes cuenta? Regístrate aquí</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

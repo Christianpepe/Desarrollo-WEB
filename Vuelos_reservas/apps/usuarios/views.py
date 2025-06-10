@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout
 from django.contrib import messages
 from .forms import CustomUserCreationForm, CustomAuthenticationForm
-
+from django.contrib.auth.decorators import login_required
 
 def registro(request):
     if request.method == 'POST':
@@ -11,7 +11,7 @@ def registro(request):
             user = form.save()
             login(request, user)
             messages.success(request, 'Registro exitoso. ¡Bienvenido!')
-            return redirect('ingreso')  # Redirige a ingreso después de registrar
+            return redirect('ingreso')  # Redirige a inicio después de registrar
     else:
         form = CustomUserCreationForm()
     return render(request, 'registration/registro.html', {'form': form})
@@ -23,10 +23,14 @@ def ingreso(request):
             user = form.get_user()
             login(request, user)
             messages.success(request, '¡Ingreso exitoso!')
-            return redirect('ingreso')  # Redirige a ingreso después de loguear
+            return redirect('inicio')  # Redirige a inicio después de loguear
     else:
         form = CustomAuthenticationForm()
     return render(request, 'registration/ingreso.html', {'form': form})
+
+@login_required
+def inicio(request):
+    return render(request, 'inicio.html')
 
 def salir(request):
     logout(request)

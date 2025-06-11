@@ -1,22 +1,176 @@
 <!-- templates/registration/ingreso.html -->
 {% extends "base.html" %}
+{% load static %}
 
-{% block title %}Ingreso{% endblock %}
+{% block title %}Iniciar Sesión - VueloReserva{% endblock %}
+
+{% block extra_css %}
+<style>
+    body {
+        padding-top: 76px; /* Compensar navbar fijo */
+    }
+</style>
+{% endblock %}
 
 {% block content %}
-<div class="card mx-auto" style="max-width: 500px;">
-  <div class="card-body">
-    <h2 class="card-title mb-4">Ingreso</h2>
-
-    <form method="post">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit" class="btn btn-success w-100 mt-3">Entrar</button>
-    </form>
-
-    <div class="text-center mt-3">
-      <a href="{% url 'registro' %}">¿No tienes cuenta? Regístrate aquí</a>
+<div class="row justify-content-center">
+    <div class="col-lg-5 col-md-7 col-sm-9">
+        <div class="auth-card">
+            <div class="card-body">
+                <!-- Header -->
+                <div class="text-center mb-4">
+                    <div class="auth-icon mb-3">
+                        <i class="fas fa-sign-in-alt fs-1 text-success"></i>
+                    </div>
+                    <h2 class="card-title">Iniciar Sesión</h2>
+                    <p class="text-muted">Bienvenido de vuelta a VueloReserva</p>
+                </div>
+                
+                <!-- Login Form -->
+                <form method="post" novalidate>
+                    {% csrf_token %}
+                    
+                    <!-- Username Field -->
+                    <div class="form-group mb-3">
+                        <label for="{{ form.username.id_for_label }}" class="form-label">
+                            <i class="fas fa-user me-1"></i>Usuario o Email
+                        </label>
+                        <div class="position-relative">
+                            {{ form.username }}
+                        </div>
+                        {% if form.username.errors %}
+                            <div class="invalid-feedback d-block">
+                                {% for error in form.username.errors %}
+                                    <small>{{ error }}</small>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Password Field -->
+                    <div class="form-group mb-3">
+                        <label for="{{ form.password.id_for_label }}" class="form-label">
+                            <i class="fas fa-lock me-1"></i>Contraseña
+                        </label>
+                        <div class="position-relative">
+                            {{ form.password }}
+                            <button type="button" class="btn btn-outline-secondary position-absolute top-50 end-0 translate-middle-y me-2" id="togglePassword" tabindex="-1">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        {% if form.password.errors %}
+                            <div class="invalid-feedback d-block">
+                                {% for error in form.password.errors %}
+                                    <small>{{ error }}</small>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-success-custom btn-custom w-100 mb-3">
+                        <i class="fas fa-sign-in-alt me-2"></i>
+                        Iniciar Sesión
+                    </button>
+                    
+                    <!-- Non-field errors -->
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {% for error in form.non_field_errors %}
+                                <small>{{ error }}</small>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </form>
+                
+                <!-- Register Link -->
+                <div class="auth-links">
+                    <p class="mb-0">
+                        ¿No tienes una cuenta? 
+                        <a href="{% url 'registro' %}" class="fw-bold">Regístrate gratis</a>
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Toggle password visibility
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordField = document.getElementById('{{ form.password.id_for_label }}');
+    
+    if (togglePassword && passwordField) {
+        togglePassword.addEventListener('click', function() {
+            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordField.setAttribute('type', type);
+            this.querySelector('i').classList.toggle('fa-eye');
+            this.querySelector('i').classList.toggle('fa-eye-slash');
+        });
+    }
+    
+    // Auto-focus on first empty field
+    const usernameField = document.getElementById('{{ form.username.id_for_label }}');
+    
+    if (usernameField && !usernameField.value) {
+        usernameField.focus();
+    } else if (passwordField && !passwordField.value) {
+        passwordField.focus();
+    }
+    
+    // Enhanced form validation
+    const form = document.querySelector('form');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            let isValid = true;
+            
+            // Validate username
+            if (!usernameField.value.trim()) {
+                usernameField.classList.add('is-invalid');
+                isValid = false;
+            } else {
+                usernameField.classList.remove('is-invalid');
+                usernameField.classList.add('is-valid');
+            }
+            
+            // Validate password
+            if (!passwordField.value) {
+                passwordField.classList.add('is-invalid');
+                isValid = false;
+            } else {
+                passwordField.classList.remove('is-invalid');
+                passwordField.classList.add('is-valid');
+            }
+            
+            if (!isValid) {
+                e.preventDefault();
+                if (window.VueloReserva) {
+                    window.VueloReserva.showNotification('Por favor completa todos los campos', 'error');
+                }
+            }
+        });
+    }
+    
+    // Remember last username
+    const rememberMe = document.getElementById('rememberMe');
+    if (localStorage.getItem('rememberedUsername') && usernameField) {
+        usernameField.value = localStorage.getItem('rememberedUsername');
+        if (rememberMe) rememberMe.checked = true;
+    }
+    
+    // Save username if remember me is checked
+    if (form && rememberMe && usernameField) {
+        form.addEventListener('submit', function() {
+            if (rememberMe.checked) {
+                localStorage.setItem('rememberedUsername', usernameField.value);
+            } else {
+                localStorage.removeItem('rememberedUsername');
+            }
+        });
+    }
+});
+</script>
 {% endblock %}

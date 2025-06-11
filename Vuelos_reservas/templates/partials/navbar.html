@@ -1,24 +1,70 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
-  <div class="container">
-    <a class="navbar-brand" href="{% url 'inicio' %}">VueloReserva</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        {% if user.is_authenticated %}
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'salir' %}">Cerrar sesión</a>
-        </li>
-        {% else %}
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'ingreso' %}">Ingresar</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'registro' %}">Registrarse</a>
-        </li>
-        {% endif %}
-      </ul>
+<!-- templates/partials/navbar.html -->
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+    <div class="container">
+        <!-- Brand -->
+        <a class="navbar-brand d-flex align-items-center" href="{% url 'inicio' %}">
+            <i class="fas fa-plane me-2"></i>
+            <span>VueloReserva</span>
+        </a>
+        
+        <!-- Mobile toggle button -->
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <!-- Navigation items -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                {% if user.is_authenticated %}
+                    <!-- Authenticated user menu -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user-circle me-1"></i>
+                            <span class="d-none d-sm-inline">{{ user.username|title }}</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="navbarDropdown">
+                            <li>
+                                <a class="dropdown-item" href="{% url 'inicio' %}">
+                                    <i class="fas fa-home me-2"></i>Inicio
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-ticket-alt me-2"></i>Mis Reservas
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-user-edit me-2"></i>Mi Perfil
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item text-danger" href="{% url 'salir' %}">
+                                    <i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                {% else %}
+                    <!-- Guest user menu -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'ingreso' %}">
+                            <i class="fas fa-sign-in-alt me-1"></i>
+                            <span>Ingresar</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-outline-light ms-2 px-3" href="{% url 'registro' %}">
+                            <i class="fas fa-user-plus me-1"></i>
+                            <span>Registrarse</span>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
     </div>
-  </div>
 </nav>
+
+<!-- Spacer for fixed navbar -->
+<div style="height: 76px;"></div>

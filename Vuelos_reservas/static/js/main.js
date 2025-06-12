@@ -74,8 +74,10 @@ function enhanceForms() {
                 validateField(this);
             });
             
-            // Agregar iconos a campos comunes
-            addFieldIcon(input);
+            // Quitar addFieldIcon(input); para no modificar la posición ni agregar iconos
+            // Restaurar padding y posición por defecto
+            input.style.paddingLeft = '';
+            if (input.parentElement) input.parentElement.style.position = '';
         });
     });
 }
@@ -135,49 +137,6 @@ function showFieldMessage(field, message, isValid) {
         messageEl.style.fontSize = '0.875rem';
         messageEl.textContent = message;
         field.parentElement.appendChild(messageEl);
-    }
-}
-
-// Función para agregar iconos a campos
-function addFieldIcon(input) {
-    const fieldName = input.name || input.id;
-    let iconClass = '';
-    
-    switch (fieldName) {
-        case 'username':
-            iconClass = 'fas fa-user';
-            break;
-        case 'email':
-            iconClass = 'fas fa-envelope';
-            break;
-        case 'password':
-        case 'password1':
-        case 'password2':
-            iconClass = 'fas fa-lock';
-            break;
-        case 'telefono':
-            iconClass = 'fas fa-phone';
-            break;
-    }
-    
-    if (iconClass) {
-        // Crear contenedor con icono
-        input.style.paddingLeft = '2.5rem';
-        
-        const iconEl = document.createElement('i');
-        iconEl.className = iconClass;
-        iconEl.style.cssText = `
-            position: absolute;
-            left: 0.75rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #64748b;
-            z-index: 5;
-        `;
-        
-        // Hacer el contenedor padre relativo
-        input.parentElement.style.position = 'relative';
-        input.parentElement.insertBefore(iconEl, input);
     }
 }
 

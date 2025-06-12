@@ -1,9 +1,345 @@
+<!-- templates/inicio.html -->
 {% extends "base.html" %}
+{% load static %}
 
-{% block title %}Inicio{% endblock %}
+{% block title %}Inicio - VueloReserva{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/inicio.css' %}">
+{% endblock %}
 
 {% block content %}
-  <div class="text-center mt-5">
-    <h1>Esta será la pestaña principal</h1>
-  </div>
+<!-- Hero Section con Carrusel -->
+<section id="heroCarousel" class="carousel slide hero-carousel" data-bs-ride="carousel" data-bs-interval="5000">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    
+    <div class="carousel-inner">
+        <!-- Slide 1 -->
+        <div class="carousel-item active">
+            <div class="hero-slide">
+                <!-- Aquí iría una imagen de fondo de un avión en el cielo -->
+                <div class="hero-image" style="background-image: url({% static 'img/imagen.jpg' %});">
+                    <div class="hero-overlay"></div>
+                </div>
+                <div class="hero-content">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8 text-center">
+                                <h1 class="hero-title fade-in-up">Descubre el Mundo</h1>
+                                <p class="hero-subtitle fade-in-up">Encuentra los mejores vuelos al mejor precio y vive experiencias únicas</p>
+                                <div class="hero-buttons fade-in-up">
+                                    <a href="#buscar-vuelos" class="btn btn-hero-primary me-3">
+                                        <i class="fas fa-search me-2"></i>Buscar Vuelos
+                                    </a>
+                                    <a href="{% url 'registro' %}" class="btn btn-hero-secondary">
+                                        <i class="fas fa-user-plus me-2"></i>Únete Gratis
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 2 -->
+        <div class="carousel-item">
+            <div class="hero-slide">
+                <!-- Aquí iría una imagen de un avión aterrizando -->
+                <div class="hero-image" style="background-image: url({% static 'img/imagen.jpg' %});">
+                    <div class="hero-overlay"></div>
+                </div>
+                <div class="hero-content">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8 text-center">
+                                <h1 class="hero-title fade-in-up">Viaja con Confianza</h1>
+                                <p class="hero-subtitle fade-in-up">Más de 10,000 clientes satisfechos confían en nosotros para sus viajes</p>
+                                <div class="hero-buttons fade-in-up">
+                                    <a href="#ofertas" class="btn btn-hero-primary me-3">
+                                        <i class="fas fa-percentage me-2"></i>Ver Ofertas
+                                    </a>
+                                    <a href="#testimonios" class="btn btn-hero-secondary">
+                                        <i class="fas fa-comments me-2"></i>Testimonios
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 3 -->
+        <div class="carousel-item">
+            <div class="hero-slide">
+                <!-- Aquí iría una imagen de pasajeros bajando del avión felices -->
+                <div class="hero-image" style="background-image: url({% static 'img/imagen.jpg' %});">
+                    <div class="hero-overlay"></div>
+                </div>
+                <div class="hero-content">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8 text-center">
+                                <h1 class="hero-title fade-in-up">Tu Próxima Aventura</h1>
+                                <p class="hero-subtitle fade-in-up">Reserva fácil, vuela cómodo, llega feliz. Así de simple.</p>
+                                <div class="hero-buttons fade-in-up">
+                                    <a href="{% url 'registro' %}" class="btn btn-hero-primary me-3">
+                                        <i class="fas fa-rocket me-2"></i>Comenzar Ahora
+                                    </a>
+                                    <a href="#como-funciona" class="btn btn-hero-secondary">
+                                        <i class="fas fa-play-circle me-2"></i>Cómo Funciona
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Anterior</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Siguiente</span>
+    </button>
+</section>
+
+<!-- Buscador de Vuelos -->
+<section id="buscar-vuelos" class="search-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="search-card">
+                    <div class="search-header text-center mb-4">
+                        <h2 class="search-title">
+                            <i class="fas fa-search me-2"></i>Encuentra tu Vuelo Perfecto
+                        </h2>
+                        <p class="search-subtitle">Compara precios y encuentra las mejores ofertas</p>
+                    </div>
+                    
+                    <form class="search-form" id="searchForm">
+                        <div class="row g-3">
+                            <div class="col-md-6 col-lg-3">
+                                <label class="form-label fw-bold">
+                                    <i class="fas fa-plane-departure me-1"></i>Origen
+                                </label>
+                                <input type="text" class="form-control" placeholder="Ciudad de origen" required>
+                            </div>
+                            <div class="col-md-6 col-lg-3">
+                                <label class="form-label fw-bold">
+                                    <i class="fas fa-plane-arrival me-1"></i>Destino
+                                </label>
+                                <input type="text" class="form-control" placeholder="Ciudad de destino" required>
+                            </div>
+                            <div class="col-md-6 col-lg-2">
+                                <label class="form-label fw-bold">
+                                    <i class="fas fa-calendar-alt me-1"></i>Salida
+                                </label>
+                                <input type="date" class="form-control" required>
+                            </div>
+                            <div class="col-md-6 col-lg-2">
+                                <label class="form-label fw-bold">
+                                    <i class="fas fa-calendar-alt me-1"></i>Regreso
+                                </label>
+                                <input type="date" class="form-control">
+                            </div>
+                            <div class="col-lg-2 d-flex align-items-end">
+                                <button type="submit" class="btn btn-search w-100">
+                                    <i class="fas fa-search me-2"></i>Buscar
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Sección de Ventajas -->
+<section class="features-section">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-12">
+                <h2 class="section-title">¿Por Qué Elegir VueloReserva?</h2>
+                <p class="section-subtitle">Hacemos que viajar sea fácil, seguro y económico</p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <h4 class="feature-title">Mejores Precios</h4>
+                    <p class="feature-description">Comparamos cientos de aerolíneas para encontrar las mejores ofertas para ti.</p>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h4 class="feature-title">Reserva Segura</h4>
+                    <p class="feature-description">Tus datos están protegidos con la más alta seguridad y encriptación.</p>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h4 class="feature-title">Soporte 24/7</h4>
+                    <p class="feature-description">Nuestro equipo está disponible las 24 horas para ayudarte cuando lo necesites.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="cta-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <div class="cta-card">
+                    <div class="cta-icon mb-3">
+                        <!-- Aquí iría una imagen de un avión despegando -->
+                        <i class="fas fa-plane fs-1 text-primary"></i>
+                    </div>
+                    <h2 class="cta-title">¿Listo para tu Próxima Aventura?</h2>
+                    <p class="cta-description">
+                        Únete a miles de viajeros que ya descubrieron la forma más fácil de volar. 
+                        Crea tu cuenta gratis y accede a ofertas exclusivas.
+                    </p>
+                    
+                    {% if not user.is_authenticated %}
+                    <div class="cta-buttons">
+                        <a href="{% url 'registro' %}" class="btn btn-cta-primary me-3">
+                            <i class="fas fa-user-plus me-2"></i>Registrarse Gratis
+                        </a>
+                        <a href="{% url 'ingreso' %}" class="btn btn-cta-secondary">
+                            <i class="fas fa-sign-in-alt me-2"></i>Iniciar Sesión
+                        </a>
+                    </div>
+                    {% else %}
+                    <div class="cta-buttons">
+                        <a href="#buscar-vuelos" class="btn btn-cta-primary">
+                            <i class="fas fa-search me-2"></i>Buscar Vuelos Ahora
+                        </a>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="cta-stats mt-4">
+                        <div class="row text-center">
+                            <div class="col-4">
+                                <div class="stat-number">10K+</div>
+                                <div class="stat-label">Clientes Felices</div>
+                            </div>
+                            <div class="col-4">
+                                <div class="stat-number">50+</div>
+                                <div class="stat-label">Destinos</div>
+                            </div>
+                            <div class="col-4">
+                                <div class="stat-number">24/7</div>
+                                <div class="stat-label">Soporte</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonios -->
+<section id="testimonios" class="testimonials-section">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-12">
+                <h2 class="section-title">Lo que Dicen Nuestros Viajeros</h2>
+                <p class="section-subtitle">Experiencias reales de personas reales</p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6">
+                <div class="testimonial-card">
+                    <!-- Aquí iría una imagen de perfil del cliente -->
+                    <div class="testimonial-avatar">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div class="testimonial-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">"Increíble servicio, encontré el vuelo perfecto a un precio increíble. Definitivamente lo recomiendo."</p>
+                    <div class="testimonial-author">
+                        <strong>María González</strong>
+                        <span>Ciudad de México</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="testimonial-card">
+                    <div class="testimonial-avatar">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div class="testimonial-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">"La plataforma más fácil de usar que he encontrado. El proceso de reserva fue súper rápido."</p>
+                    <div class="testimonial-author">
+                        <strong>Carlos Rodríguez</strong>
+                        <span>Guadalajara</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="testimonial-card">
+                    <div class="testimonial-avatar">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div class="testimonial-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">"Excelente atención al cliente y precios muy competitivos. Ya es mi sitio de confianza para viajar."</p>
+                    <div class="testimonial-author">
+                        <strong>Ana López</strong>
+                        <span>Monterrey</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/inicio.js' %}"></script>
 {% endblock %}

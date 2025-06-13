@@ -24,3 +24,15 @@ vuelo_reserva/
 ├── README.md
 ├── .env
 └── .gitignore
+
+http://localhost:8000/ingreso/
+1234567a
+
+
+PANTALLAS QUE FALTAN:
+
+MIS RESERVAS
+MI PERFIL
+RECOMENDACIONES
+BUSCAR VUELOS
+COMO FUNCIONA

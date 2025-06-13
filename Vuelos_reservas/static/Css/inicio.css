@@ -40,6 +40,7 @@
   bottom: 0;
   background: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(1px);
+  z-index: 10;
 }
 
 .hero-content {
@@ -122,6 +123,7 @@
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   transition: all 0.3s ease;
+  z-index: 20;
 }
 
 .carousel-control-prev:hover,
@@ -210,6 +212,10 @@
 }
 
 .btn-search {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
   background: linear-gradient(135deg, #059669 0%, #047857 100%);
   border: none;
   color: white;
@@ -224,6 +230,13 @@
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(5, 150, 105, 0.3);
   color: white;
+}
+
+.btn-search i {
+  font-size: 1.1em;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
 }
 
 /* Features Section */

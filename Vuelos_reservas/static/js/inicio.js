@@ -134,7 +134,7 @@ function initializeCarousel() {
             indicator.addEventListener('click', function(e) {
                 e.preventDefault();
                 carousel.to(index);
-                console.log(`🎯 Ir al slide ${index}`);
+                console.log(` Ir al slide ${index}`);
             });
         });
         

@@ -1,0 +1,66 @@
+from django.db import models
+
+class Aeropuerto(models.Model):
+    codigo_iata = models.CharField(max_length=10, unique=True)
+    codigo_icao = models.CharField(max_length=10)
+    nombre = models.CharField(max_length=100)
+    ciudad = models.CharField(max_length=100)
+    pais = models.CharField(max_length=100)
+    timezone = models.CharField(max_length=50)
+    latitud = models.DecimalField(max_digits=10, decimal_places=6)
+    longitud = models.DecimalField(max_digits=10, decimal_places=6)
+    activo = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+class Aerolinea(models.Model):
+    codigo_iata = models.CharField(max_length=10, unique=True)
+    nombre = models.CharField(max_length=100)
+    pais = models.CharField(max_length=100)
+    activa = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+class ModeloAvion(models.Model):
+    codigo = models.CharField(max_length=20, unique=True)
+    nombre = models.CharField(max_length=100)
+    capacidad_total = models.IntegerField()
+    filas_total = models.IntegerField()
+    asientos_por_fila = models.IntegerField()
+    tiene_primera_clase = models.BooleanField(default=False)
+    tiene_clase_ejecutiva = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+class Vuelo(models.Model):
+    numero_vuelo = models.CharField(max_length=20)
+    aerolinea = models.ForeignKey(Aerolinea, on_delete=models.CASCADE)
+    aeropuerto_origen = models.ForeignKey(Aeropuerto, on_delete=models.CASCADE, related_name='salidas')
+    aeropuerto_destino = models.ForeignKey(Aeropuerto, on_delete=models.CASCADE, related_name='llegadas')
+    modelo_avion = models.ForeignKey(ModeloAvion, on_delete=models.CASCADE)
+    flight_date = models.DateField()
+    flight_status = models.CharField(max_length=50)
+    fecha_salida_programada = models.DateTimeField()
+    fecha_llegada_programada = models.DateTimeField()
+    fecha_salida_real = models.DateTimeField(null=True, blank=True)
+    fecha_llegada_real = models.DateTimeField(null=True, blank=True)
+    terminal_salida = models.CharField(max_length=20, blank=True)
+    gate_salida = models.CharField(max_length=10, blank=True)
+    terminal_llegada = models.CharField(max_length=20, blank=True)
+    gate_llegada = models.CharField(max_length=10, blank=True)
+    precio_base = models.DecimalField(max_digits=10, decimal_places=2)
+    asientos_disponibles = models.IntegerField()
+    duracion_minutos = models.IntegerField()
+    api_flight_iata = models.CharField(max_length=20)
+    api_flight_icao = models.CharField(max_length=20)
+    codeshare_info = models.CharField(max_length=50, blank=True)
+    ultima_actualizacion = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+class Asiento(models.Model):
+    vuelo = models.ForeignKey(Vuelo, on_delete=models.CASCADE, related_name='asientos')
+    numero_asiento = models.CharField(max_length=5)  # Ej: "12A"
+    fila = models.IntegerField()
+    columna = models.CharField(max_length=1)
+    clase = models.CharField(max_length=50)
+    tipo = models.CharField(max_length=50, blank=True)
+    precio_adicional = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    disponible = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)

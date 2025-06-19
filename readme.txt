@@ -26,7 +26,11 @@ vuelo_reserva/
 └── .gitignore
 
 http://localhost:8000/ingreso/
+pruebas1307
 1234567a
+
+Contra de la api:
+Tl4cu4ch3_?
 
 
 PANTALLAS QUE FALTAN:

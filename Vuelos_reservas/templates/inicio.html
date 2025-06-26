@@ -124,25 +124,27 @@
                         <p class="search-subtitle">Compara precios y encuentra las mejores ofertas</p>
                     </div>
                     
-                    <form class="search-form" id="searchForm">
+                    <form id="search-form" action="{% url 'buscar_vuelos' %}" method="get">
                         <div class="row g-3">
                             <div class="col-md-6 col-lg-3">
                                 <label class="form-label fw-bold">
                                     <i class="fas fa-plane-departure me-1"></i>Origen
                                 </label>
-                                <input type="text" class="form-control" placeholder="Ciudad de origen" required>
+                                <input type="text" class="form-control" id="origen" name="origen" placeholder="Ciudad de origen" list="origen-list" autocomplete="off" required>
+                                <datalist id="origen-list"></datalist>
                             </div>
                             <div class="col-md-6 col-lg-3">
                                 <label class="form-label fw-bold">
                                     <i class="fas fa-plane-arrival me-1"></i>Destino
                                 </label>
-                                <input type="text" class="form-control" placeholder="Ciudad de destino" required>
+                                <input type="text" class="form-control" id="destino" name="destino" placeholder="Ciudad de destino" list="destino-list" autocomplete="off" required>
+                                <datalist id="destino-list"></datalist>
                             </div>
                             <div class="col-md-6 col-lg-2">
                                 <label class="form-label fw-bold">
                                     <i class="fas fa-calendar-alt me-1"></i>Salida
                                 </label>
-                                <input type="date" class="form-control" required>
+                                <input type="date" class="form-control" id="fecha_salida" name="fecha_salida" required>
                             </div>
                             <div class="col-md-6 col-lg-2">
                                 <label class="form-label fw-bold">
@@ -157,6 +159,7 @@
                             </div>
                         </div>
                     </form>
+
                 </div>
             </div>
         </div>
@@ -267,4 +270,5 @@
 
 {% block extra_js %}
 <script src="{% static 'js/inicio.js' %}"></script>
+<script src="{% static 'js/autocompletar.js' %}"></script>
 {% endblock %}

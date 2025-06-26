@@ -1,0 +1,61 @@
+<!-- Muestra el número de vuelos encontrados.
+
+Lista los datos clave: aerolínea, origen, destino, fechas y tipo.
+
+Indica si el vuelo es real o simulado.
+
+Muestra un mensaje si no hay resultados.
+
+Incluye un botón para volver al inicio.
+
+ -->
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Resultados de búsqueda</h2>
+
+    {% if vuelos_encontrados %}
+        <p class="text-muted">{{ vuelos_encontrados.count }} vuelo{{ vuelos_encontrados.count|pluralize }} encontrado{{ vuelos_encontrados.count|pluralize }}.</p>
+
+        <table class="table table-hover table-bordered">
+            <thead class="table-light">
+                <tr>
+                    <th>Número de vuelo</th>
+                    <th>Aerolínea</th>
+                    <th>Origen</th>
+                    <th>Destino</th>
+                    <th>Salida</th>
+                    <th>Llegada</th>
+                    <th>Tipo</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for vuelo in vuelos_encontrados %}
+                <tr>
+                    <td>{{ vuelo.numero_vuelo }}</td>
+                    <td>{{ vuelo.aerolinea.nombre }}</td>
+                    <td>{{ vuelo.origen.nombre }}</td>
+                    <td>{{ vuelo.destino.nombre }}</td>
+                    <td>{{ vuelo.fecha_salida_programada|date:"d M Y H:i" }}</td>
+                    <td>{{ vuelo.fecha_llegada_programada|date:"d M Y H:i" }}</td>
+                    <td>
+                        {% if vuelo.es_simulado %}
+                            <span class="badge bg-secondary">Simulado</span>
+                        {% else %}
+                            <span class="badge bg-success">Real</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% elif busqueda_realizada %}
+        <div class="alert alert-warning">
+            No se encontraron vuelos que coincidan con los criterios ingresados.
+        </div>
+    {% endif %}
+
+    <a href="{% url 'inicio' %}" class="btn btn-outline-primary mt-3">Volver al inicio</a>
+</div>
+{% endblock %}

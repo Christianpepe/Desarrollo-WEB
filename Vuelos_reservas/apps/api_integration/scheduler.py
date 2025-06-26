@@ -10,7 +10,7 @@ def ejecutar_carga_completa(cargar_reales=True, cargar_simulados=True):
     total_guardados = 0
 
     if cargar_reales:
-        print("🔍 Obteniendo vuelos reales desde la API...")
+        print(" Obteniendo vuelos reales desde la API...")
         vuelos_reales = get_real_time_flights(limit=10)
         print(f"Respuesta cruda de la API (primeros 3): {vuelos_reales[:3]}")
         for vuelo_raw in vuelos_reales:

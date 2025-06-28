@@ -16,6 +16,7 @@ beautifulsoup4==4.12.2
 
 # Utilidades adicionales
 python-decouple==3.8  # Para manejar variables de entorno
+pytz==2024.1  # Para manejo de zonas horarias
 
 # Para desarrollo (opcional)
 django-debug-toolbar==4.2.0  # Solo para debug

@@ -1,49 +1,38 @@
-# apps/api_integration/scheduler.py
+from datetime import datetime, timedelta
+from apps.api_integration.api_client import get_real_time_flights
+from apps.api_integration.data_transformer import transformar_vuelo_a_modelo
+from apps.api_integration.data_simulator import generate_simulated_flights
+from apps.api_integration.data_loader import guardar_vuelo
 
-from .api_client import get_real_time_flights
-from .data_simulator import generate_simulated_flights
-from .data_transformer import transform_real_flight_data, transform_simulated_flight_data
-from .data_loader import guardar_vuelo
 
-
-def ejecutar_carga_completa(cargar_reales=True, cargar_simulados=True):
-    total_guardados = 0
+def ejecutar_carga_completa(dias_a_consultar=3, cargar_reales=True, cargar_simulados=True, icao_code=None):
+    vuelos_cargados = 0
 
     if cargar_reales:
-        print(" Obteniendo vuelos reales desde la API...")
-        vuelos_reales = get_real_time_flights(limit=10)
-        print(f"Respuesta cruda de la API (primeros 3): {vuelos_reales[:3]}")
-        for vuelo_raw in vuelos_reales:
-            if vuelo_raw is None or not isinstance(vuelo_raw, dict):
-                print(f"Elemento inválido ignorado: {vuelo_raw}")
-                continue  # Ignorar elementos None o inválidos
-            vuelo_transformado = transform_real_flight_data(vuelo_raw)
-            # Validar campos obligatorios antes de guardar
-            if not vuelo_transformado:
-                continue
-            if not vuelo_transformado.get('fecha_salida') or not vuelo_transformado.get('aerolinea', {}).get('nombre') or not vuelo_transformado.get('origen', {}).get('nombre') or not vuelo_transformado.get('destino', {}).get('nombre'):
-                print(f"Vuelo real ignorado por campos obligatorios faltantes: {vuelo_transformado}")
-                continue
-            if not vuelo_transformado.get('modelo_avion'):
-                print(f"Vuelo real ignorado por modelo de avión faltante: {vuelo_transformado}")
-                continue
-            # Mapear campos para el modelo
-            vuelo_transformado['fecha_salida_programada'] = vuelo_transformado.pop('fecha_salida', None)
-            vuelo_transformado['fecha_llegada_programada'] = vuelo_transformado.pop('fecha_llegada', None)
-            vuelo_transformado['flight_date'] = vuelo_raw.get('flight_date') or ''
-            vuelo, creado = guardar_vuelo(vuelo_transformado)
-            if creado:
-                total_guardados += 1
+        print("🔍 Obteniendo vuelos reales desde la API...")
+
+        hoy = datetime.now().date()
+        # Consultar solo días pasados (no el día actual ni futuros)
+        for offset in range(1, dias_a_consultar + 1):
+            fecha = hoy - timedelta(days=offset)
+            if icao_code:
+                vuelos_api = get_real_time_flights(fecha, origen_icao=icao_code)
+            else:
+                vuelos_api = get_real_time_flights(fecha)
+
+            for vuelo_api in vuelos_api:
+                transformado = transformar_vuelo_a_modelo(vuelo_api, es_simulado=False)
+                if transformado:
+                    vuelo, creado = guardar_vuelo(transformado)
+                    if creado:
+                        vuelos_cargados += 1
 
     if cargar_simulados:
         print("🎲 Generando vuelos simulados...")
-        vuelos_simulados = generate_simulated_flights()
+        simulados = generate_simulated_flights()
+        for vuelo_simulado in simulados:
+            vuelo, creado = guardar_vuelo(vuelo_simulado)
+            if creado:
+                vuelos_cargados += 1
 
-        for vuelo_sim in vuelos_simulados:
-            vuelo_transformado = transform_simulated_flight_data(vuelo_sim)
-            if vuelo_transformado:
-                vuelo, creado = guardar_vuelo(vuelo_transformado)
-                if creado:
-                    total_guardados += 1
-
-    print(f"✅ Carga finalizada. Total de vuelos nuevos: {total_guardados}")
+    print(f"✅ Carga finalizada. Total de vuelos nuevos: {vuelos_cargados}")

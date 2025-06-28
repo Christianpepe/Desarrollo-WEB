@@ -3,10 +3,10 @@
 import os
 from decouple import config
 
-#  API config
-AVIATIONSTACK_API_KEY = config('AVIATIONSTACK_API_KEY')
-API_BASE_URL = 'http://api.aviationstack.com/v1'
-FLIGHTS_ENDPOINT = f'{API_BASE_URL}/flights'
+#  API config para AeroDataBox
+RAPIDAPI_KEY = config('RAPIDAPI_KEY')
+RAPIDAPI_HOST = config('RAPIDAPI_HOST')
+AERODATABOX_BASE_URL = 'https://aerodatabox.p.rapidapi.com'
 
 #  Parámetros de consulta
 DIAS_A_CONSULTAR = 5  # Cuántos días hacia adelante consultar
@@ -29,7 +29,7 @@ ESTADOS_VUELO_VALIDOS = {
 CLASES_ASIENTO = ['economy', 'business', 'first']
 
 #  Otros valores fijos o auxiliares que podrías necesitar
-DEFAULT_PAGE_SIZE = 100  # Límite por página de resultados en la API
+DEFAULT_PAGE_SIZE = 100  # Límite por página de resultados en la API (máximo permitido por Aviationstack)
 
 # Simulación
 NUM_SIMULATED_FLIGHTS_PER_DAY = 10

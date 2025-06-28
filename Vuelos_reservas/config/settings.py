@@ -3,8 +3,6 @@ from pathlib import Path
 from dotenv import load_dotenv
 from decouple import config
 
-AVIATIONSTACK_API_KEY = config('AVIATIONSTACK_API_KEY')
-
 load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent

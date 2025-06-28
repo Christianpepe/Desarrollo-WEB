@@ -1,25 +1,30 @@
 import requests
+from datetime import datetime
+from decouple import config
 
-# Reemplaza con tu propia API Key
-API_KEY = ''
+# Configuración para AeroDataBox
+RAPIDAPI_KEY = config("RAPIDAPI_KEY")
+RAPIDAPI_HOST = "aerodatabox.p.rapidapi.com"
 
-# Endpoint base
-url = 'http://api.aviationstack.com/v1/flights'
+# Cambia aquí el aeropuerto y la fecha que quieras probar
+ICAO = 'KLAX'  # Cambia por el ICAO deseado
+fecha = datetime.now().strftime('%Y-%m-%d')
 
-# Parámetros de prueba (puede filtrar por fecha, aerolínea, aeropuerto, etc.)
-params = {
-    'access_key': API_KEY,
-    'limit': 1  # Solo pedimos un vuelo para probar
+# Rango de 12 horas (puedes ajustar)
+from_local = f"{fecha}T00:00"
+to_local = f"{fecha}T12:00"
+
+url = f"https://{RAPIDAPI_HOST}/flights/airports/icao/{ICAO}/{from_local}/{to_local}"
+
+headers = {
+    "X-RapidAPI-Key": RAPIDAPI_KEY,
+    "X-RapidAPI-Host": RAPIDAPI_HOST
 }
+params = {"direction": "Both"}
 
-# Hacer la solicitud
-response = requests.get(url, params=params)
+response = requests.get(url, headers=headers, params=params)
 
-# Revisar si la conexión fue exitosa
-if response.status_code == 200:
-    data = response.json()
-    print("✅ Conexión exitosa. Ejemplo de datos:")
-    print(data)
-else:
-    print("❌ Error en la conexión. Código:", response.status_code)
-    print(response.text)
+print(f"URL consultada: {response.url}")
+print(f"Código de estado: {response.status_code}")
+print("Respuesta cruda de la API:")
+print(response.text)

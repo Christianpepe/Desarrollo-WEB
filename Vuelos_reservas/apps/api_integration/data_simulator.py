@@ -46,7 +46,10 @@ def generate_simulated_flights():
                 'destino': destino,
                 'fecha_salida': hora_salida.isoformat(),
                 'fecha_llegada': hora_llegada.isoformat(),
-                'modelo_avion': modelo_avion
+                'fecha_salida_programada': hora_salida.isoformat(),  # Campo requerido por guardar_vuelo
+                'fecha_llegada_programada': hora_llegada.isoformat(),  # Campo requerido por guardar_vuelo
+                'modelo_avion': modelo_avion,
+                'flight_date': hora_salida.date().isoformat(),  # Campo requerido por guardar_vuelo
             })
 
     return vuelos

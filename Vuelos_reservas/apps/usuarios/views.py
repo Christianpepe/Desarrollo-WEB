@@ -3,6 +3,8 @@ from django.contrib.auth import login, logout
 from django.contrib import messages
 from .forms import CustomUserCreationForm, CustomAuthenticationForm
 from django.contrib.auth.decorators import login_required
+from apps.vuelos.models import Vuelo
+from django.utils import timezone
 
 def registro(request):
     if request.method == 'POST':
@@ -30,7 +32,15 @@ def ingreso(request):
 
 @login_required
 def inicio(request):
-    return render(request, 'inicio.html')
+    ahora = timezone.now()
+    # Priorizar vuelos reales (de la API): aquellos con api_flight_iata o api_flight_icao no vacíos
+    vuelos_reales = Vuelo.objects.filter(
+        fecha_salida_programada__gte=ahora
+    ).exclude(api_flight_iata='', api_flight_icao='').order_by('fecha_salida_programada')[:10]
+    context = {
+        'vuelos_disponibles': vuelos_reales
+    }
+    return render(request, 'inicio.html', context)
 
 def salir(request):
     logout(request)

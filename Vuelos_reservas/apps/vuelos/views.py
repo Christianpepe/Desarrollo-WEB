@@ -4,6 +4,7 @@ from apps.vuelos.models import Vuelo
 from django.http import JsonResponse
 from django.views.decorators.http import require_GET
 from apps.vuelos.models import Aeropuerto
+from django.utils import timezone
 
 def buscar_vuelos(request):
     origen = request.GET.get('origen', '').strip()
@@ -43,3 +44,12 @@ def autocompletar_aeropuertos(request):
         resultados = []
 
     return JsonResponse(resultados, safe=False)
+
+def inicio(request):
+    # Mostrar los próximos 10 vuelos ordenados por fecha de salida
+    ahora = timezone.now()
+    vuelos_disponibles = Vuelo.objects.filter(fecha_salida_programada__gte=ahora).order_by('fecha_salida_programada')[:10]
+    context = {
+        'vuelos_disponibles': vuelos_disponibles
+    }
+    return render(request, 'inicio.html', context)

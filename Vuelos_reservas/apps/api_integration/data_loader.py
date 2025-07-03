@@ -1,11 +1,12 @@
-# apps/api_integration/data_loader.py
+def get_or_create_aerolinea(data):
 
+#  Funciones para guardar vuelos y entidades relacionadas en la base de datos
 from apps.vuelos.models import Vuelo, Aerolinea, Aeropuerto, ModeloAvion
-from django.utils.dateparse import parse_datetime
 from django.db import transaction
 
-
+# Aerolínea 
 def get_or_create_aerolinea(data):
+    """Obtiene o crea una aerolínea por código IATA."""
     return Aerolinea.objects.get_or_create(
         codigo_iata=data['codigo_iata'],
         defaults={'nombre': data['nombre']}
@@ -13,22 +14,29 @@ def get_or_create_aerolinea(data):
 
 
 def get_or_create_aeropuerto(data):
-    return Aeropuerto.objects.get_or_create(
-        codigo_iata=data['codigo_iata'],
+    """Obtiene o crea un aeropuerto por código ICAO. Si existe y el IATA cambió, lo actualiza."""
+    aeropuerto, creado = Aeropuerto.objects.get_or_create(
+        codigo_icao=data.get('codigo_icao', ''),
         defaults={
+            'codigo_iata': data.get('codigo_iata', ''),
             'nombre': data.get('nombre', ''),
             'ciudad': data.get('ciudad') or '',
             'pais': data.get('pais') or '',
             'latitud': data.get('latitud') if data.get('latitud') is not None else 0.0,
             'longitud': data.get('longitud') if data.get('longitud') is not None else 0.0,
-            'codigo_icao': data.get('codigo_icao', ''),
             'timezone': data.get('timezone', ''),
             'activo': True
         }
-    )[0]
+    )
+    # Si existe pero el IATA es diferente y no está vacío, actualiza el IATA
+    if not creado and data.get('codigo_iata') and aeropuerto.codigo_iata != data.get('codigo_iata'):
+        aeropuerto.codigo_iata = data.get('codigo_iata')
+        aeropuerto.save()
+    return aeropuerto
 
 
 def get_or_create_modelo_avion(codigo):
+    """Obtiene o crea un modelo de avión por código."""
     if not codigo:
         return None
     return ModeloAvion.objects.get_or_create(
@@ -37,10 +45,13 @@ def get_or_create_modelo_avion(codigo):
     )[0]
 
 
+def guardar_vuelo(data):
+
 @transaction.atomic
 def guardar_vuelo(data):
     """
     Guarda o actualiza un vuelo (real o simulado) en la base de datos.
+    Si ya existe (por número y fecha), lo actualiza.
     """
     try:
         aerolinea = get_or_create_aerolinea(data['aerolinea'])
@@ -71,11 +82,9 @@ def guardar_vuelo(data):
                 'api_flight_iata': data.get('api_flight_iata', ''),
                 'api_flight_icao': data.get('api_flight_icao', ''),
                 'codeshare_info': data.get('codeshare_info', ''),
-                # 'es_simulado': data.get('es_simulado', False), # Si tienes este campo en el modelo
+                # 'es_simulado': data.get('es_simulado', False),
             }
         )
-
         return vuelo, creado
-    except Exception as e:
-        print(f"Error al guardar vuelo: {e}")
+    except Exception:
         return None, False

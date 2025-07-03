@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Detalle del Vuelo {{ vuelo.numero_vuelo }}</h2>
+    <ul class="list-group">
+        <li class="list-group-item"><strong>Aerolínea:</strong> {{ vuelo.aerolinea.nombre }}</li>
+        <li class="list-group-item"><strong>Origen:</strong> {{ vuelo.aeropuerto_origen.nombre }}</li>
+        <li class="list-group-item"><strong>Destino:</strong> {{ vuelo.aeropuerto_destino.nombre }}</li>
+        <li class="list-group-item"><strong>Salida:</strong> {{ vuelo.fecha_salida_programada|date:"d M Y H:i" }}</li>
+        <li class="list-group-item"><strong>Llegada:</strong> {{ vuelo.fecha_llegada_programada|date:"d M Y H:i" }}</li>
+        <li class="list-group-item"><strong>Tipo:</strong> 
+            {% if vuelo.es_simulado %}
+                Simulado
+            {% else %}
+                Real
+            {% endif %}
+        </li>
+    </ul>
+    <a href="{% url 'lista_vuelos' %}" class="btn btn-secondary mt-3">Volver a la lista</a>
+</div>
+{% endblock %}

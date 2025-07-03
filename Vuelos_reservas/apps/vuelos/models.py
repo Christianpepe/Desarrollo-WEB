@@ -1,9 +1,12 @@
+
+# models.py: Modelos principales del sistema de vuelos
 from django.db import models
 
+# --- Aeropuerto ---
 class Aeropuerto(models.Model):
-    codigo_iata = models.CharField(max_length=10, unique=True)
-    codigo_icao = models.CharField(max_length=10)
-    nombre = models.CharField(max_length=100)
+    codigo_iata = models.CharField(max_length=10, blank=True, null=True)  # Código IATA (opcional)
+    codigo_icao = models.CharField(max_length=10, unique=True)            # Código ICAO (único)
+    nombre = models.CharField(max_length=100)                            # Nombre del aeropuerto
     ciudad = models.CharField(max_length=100)
     pais = models.CharField(max_length=100)
     timezone = models.CharField(max_length=50)
@@ -12,6 +15,7 @@ class Aeropuerto(models.Model):
     activo = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
+# --- Aerolínea ---
 class Aerolinea(models.Model):
     codigo_iata = models.CharField(max_length=10, unique=True)
     nombre = models.CharField(max_length=100)
@@ -19,6 +23,7 @@ class Aerolinea(models.Model):
     activa = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
+# --- Modelo de avión ---
 class ModeloAvion(models.Model):
     codigo = models.CharField(max_length=20, unique=True)
     nombre = models.CharField(max_length=100)
@@ -29,6 +34,7 @@ class ModeloAvion(models.Model):
     tiene_clase_ejecutiva = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
+# --- Vuelo ---
 class Vuelo(models.Model):
     numero_vuelo = models.CharField(max_length=20)
     aerolinea = models.ForeignKey(Aerolinea, on_delete=models.CASCADE)
@@ -54,6 +60,7 @@ class Vuelo(models.Model):
     ultima_actualizacion = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
+# --- Asiento ---
 class Asiento(models.Model):
     vuelo = models.ForeignKey(Vuelo, on_delete=models.CASCADE, related_name='asientos')
     numero_asiento = models.CharField(max_length=5)  # Ej: "12A"

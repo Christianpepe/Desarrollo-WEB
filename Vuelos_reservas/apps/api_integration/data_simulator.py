@@ -1,9 +1,12 @@
+def generate_simulated_flights():
+
+#  Generador de vuelos simulados para pruebas 
 import random
 from datetime import datetime, timedelta
 from django.utils.timezone import make_aware
 from .constants import SIMULATED_DAYS, NUM_SIMULATED_FLIGHTS_PER_DAY
 
-# Datos base de ejemplo
+#  Datos base de ejemplo para simulación
 AEROLINEAS_SIMULADAS = [
     {'nombre': 'Aerolíneas Simuladas MX', 'codigo_iata': 'SM'},
     {'nombre': 'Virtual Airlines', 'codigo_iata': 'VA'}
@@ -18,27 +21,25 @@ AEROPUERTOS_SIMULADOS = [
 
 MODELOS_AVION_SIMULADOS = ['A320', 'B737', 'E190']
 
-
 def generate_simulated_flights():
+    """
+    Genera una lista de vuelos simulados para poblar la base de datos en desarrollo o pruebas.
+    Cada vuelo tiene datos coherentes y fechas distribuidas en varios días.
+    """
     vuelos = []
     base_fecha = datetime.now().replace(hour=8, minute=0, second=0, microsecond=0)
-
     for dia in range(SIMULATED_DAYS):
         fecha_actual = base_fecha + timedelta(days=dia)
-
         for _ in range(NUM_SIMULATED_FLIGHTS_PER_DAY):
             aerolinea = random.choice(AEROLINEAS_SIMULADAS)
             origen, destino = random.sample(AEROPUERTOS_SIMULADOS, 2)
             modelo_avion = random.choice(MODELOS_AVION_SIMULADOS)
-
             hora_salida = fecha_actual + timedelta(minutes=random.randint(0, 600))
             duracion = timedelta(minutes=random.randint(90, 300))
             hora_llegada = hora_salida + duracion
-
             # Convertir a timezone-aware
             hora_salida = make_aware(hora_salida)
             hora_llegada = make_aware(hora_llegada)
-
             vuelos.append({
                 'numero_vuelo': f"{aerolinea['codigo_iata']}{random.randint(100, 999)}",
                 'aerolinea': aerolinea,
@@ -46,10 +47,9 @@ def generate_simulated_flights():
                 'destino': destino,
                 'fecha_salida': hora_salida.isoformat(),
                 'fecha_llegada': hora_llegada.isoformat(),
-                'fecha_salida_programada': hora_salida.isoformat(),  # Campo requerido por guardar_vuelo
-                'fecha_llegada_programada': hora_llegada.isoformat(),  # Campo requerido por guardar_vuelo
+                'fecha_salida_programada': hora_salida.isoformat(),
+                'fecha_llegada_programada': hora_llegada.isoformat(),
                 'modelo_avion': modelo_avion,
-                'flight_date': hora_salida.date().isoformat(),  # Campo requerido por guardar_vuelo
+                'flight_date': hora_salida.date().isoformat(),
             })
-
     return vuelos

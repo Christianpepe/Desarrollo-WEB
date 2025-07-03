@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Todos los vuelos disponibles</h2>
+
+    {% if todos_vuelos %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Número</th>
+                    <th>Aerolínea</th>
+                    <th>Origen</th>
+                    <th>Destino</th>
+                    <th>Salida</th>
+                    <th>Llegada</th>
+                    <th>Tipo</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for vuelo in todos_vuelos %}
+                <tr>
+                    <td>{{ vuelo.numero_vuelo }}</td>
+                    <td>{{ vuelo.aerolinea.nombre }}</td>
+                    <td>{{ vuelo.aeropuerto_origen.nombre }}</td>
+                    <td>{{ vuelo.aeropuerto_destino.nombre }}</td>
+                    <td>{{ vuelo.fecha_salida_programada|date:"d M Y H:i" }}</td>
+                    <td>{{ vuelo.fecha_llegada_programada|date:"d M Y H:i" }}</td>
+                    <td>
+                        {% if vuelo.es_simulado %}
+                            <span class="badge bg-secondary">Simulado</span>
+                        {% else %}
+                            <span class="badge bg-success">Real</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                      <a href="{% url 'detalle_vuelo' vuelo.id %}" class="btn btn-sm btn-primary">Revisar</a>
+                     </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No hay vuelos registrados.</p>
+    {% endif %}
+</div>
+{% endblock %}

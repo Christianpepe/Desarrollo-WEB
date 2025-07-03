@@ -1,9 +1,13 @@
+
+# Este archivo define las URLs para la gestión de usuarios:
+# registro, ingreso (login), inicio y cierre de sesión.
+
 from django.urls import path
 from . import views
-# Este archivo define las URLs para la aplicación de usuarios.
+
 urlpatterns = [
-    path('', views.inicio, name='inicio'),  # Página principal
-    path('registro/', views.registro, name='registro'),
-    path('ingreso/', views.ingreso, name='ingreso'),
-    path('salir/', views.salir, name='salir'),
+    path('', views.inicio, name='inicio'),  # Página principal de usuario autenticado
+    path('registro/', views.registro, name='registro'),  # Registro de usuario
+    path('ingreso/', views.ingreso, name='ingreso'),      # Login de usuario
+    path('salir/', views.salir, name='salir'),            # Logout
 ]

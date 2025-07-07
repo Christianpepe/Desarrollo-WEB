@@ -1,9 +1,4 @@
-def trunc20(val):
-    return str(val)[:20] if val else ''
-def transformar_vuelo_a_modelo(vuelo_api, es_simulado=False):
-def parse_datetime_safe(dt_string):
-
-# data_transformer.py: Transforma los datos crudos de la API a formato de modelo Django
+## data_transformer.py: Transforma los datos crudos de la API a formato de modelo Django
 from datetime import datetime
 from pytz import timezone
 

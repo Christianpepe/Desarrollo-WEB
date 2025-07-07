@@ -1,4 +1,4 @@
-def generate_simulated_flights():
+
 
 #  Generador de vuelos simulados para pruebas 
 import random

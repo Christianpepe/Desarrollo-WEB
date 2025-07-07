@@ -1,4 +1,3 @@
-def get_real_time_flights(fecha: datetime.date, origen_icao=ORIGEN_ICAO_DEFAULT):
 
 # api_client.py: Cliente para la API de AeroDataBox
 import requests
@@ -17,7 +16,7 @@ HEADERS = {
     "X-RapidAPI-Host": RAPIDAPI_HOST
 }
 
-def get_real_time_flights(fecha: datetime.date, origen_icao=ORIGEN_ICAO_DEFAULT):
+def get_real_time_flights(fecha: datetime.date, origen_icao):
     """
     Solicita vuelos programados (salidas y llegadas) desde un aeropuerto específico en una fecha.
     """

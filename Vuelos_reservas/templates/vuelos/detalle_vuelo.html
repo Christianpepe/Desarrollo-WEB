@@ -1,21 +1,172 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block title %}Mapa de Asientos - VueloReserva{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/vuelo_detalle.css' %}">
+<link rel="stylesheet" href="{% static 'css/asientos.css' %}">
+<style>
+  .mapa-imagen {
+    position: relative;
+    width: 100%;
+    height: 600px;
+    max-width: 420px;
+    margin: 0 auto;
+  }
+  
+  .mapa-imagen img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+  
+  .asientos {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 2;
+  }
+  
+  .asiento {
+    position: absolute;
+    background-color: #f0f0f0;
+    border: 1px solid #333;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 18px;
+    height: 17px;
+    font-size: 9px;
+    font-weight: bold;
+    border-radius: 2px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .asiento:hover {
+    transform: scale(1.1);
+  }
+
+  .asiento.ocupado {
+    background-color: #e74c3c;
+    color: white;
+    cursor: not-allowed;
+  }
+
+  .asiento.seleccionado {
+    background-color: #2ecc71;
+    color: white;
+    border-color: #27ae60;
+  }
+
+  .asiento.propio {
+    background-color: #3498db;
+    color: white;
+    border-color: #2980b9;
+    cursor: not-allowed;
+  }
+
+  @media (max-width: 600px) {
+    .mapa-imagen {
+      aspect-ratio: 2/3;
+      width: 98vw;
+      height: auto;
+      max-width: none;
+    }
+    .asiento {
+      width: 17px;
+      height: 17px;
+      font-size: 8px;
+    }
+  }
+
+  #confirmar-btn {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  #confirmar-btn:hover:not(:disabled) {
+    background-color: #2980b9;
+  }
+
+  #confirmar-btn:disabled {
+    background-color: #bdc3c7;
+    cursor: not-allowed;
+  }
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="container mt-5">
-    <h2>Detalle del Vuelo {{ vuelo.numero_vuelo }}</h2>
-    <ul class="list-group">
-        <li class="list-group-item"><strong>Aerolínea:</strong> {{ vuelo.aerolinea.nombre }}</li>
-        <li class="list-group-item"><strong>Origen:</strong> {{ vuelo.aeropuerto_origen.nombre }}</li>
-        <li class="list-group-item"><strong>Destino:</strong> {{ vuelo.aeropuerto_destino.nombre }}</li>
-        <li class="list-group-item"><strong>Salida:</strong> {{ vuelo.fecha_salida_programada|date:"d M Y H:i" }}</li>
-        <li class="list-group-item"><strong>Llegada:</strong> {{ vuelo.fecha_llegada_programada|date:"d M Y H:i" }}</li>
-        <li class="list-group-item"><strong>Tipo:</strong> 
-            {% if vuelo.es_simulado %}
-                Simulado
-            {% else %}
-                Real
-            {% endif %}
-        </li>
-    </ul>
-    <a href="{% url 'lista_vuelos' %}" class="btn btn-secondary mt-3">Volver a la lista</a>
+<div class="vuelo-layout">
+  <div class="vuelo-detalles">
+    <h2>Detalles del Vuelo</h2>
+    <p><strong>Vuelo:</strong> {{ vuelo.numero_vuelo }}</p>
+    <p><strong>Aerolínea:</strong> {{ vuelo.aerolinea.nombre }}</p>
+    <p><strong>Origen:</strong> {{ vuelo.aeropuerto_origen.nombre }}</p>
+    <p><strong>Destino:</strong> {{ vuelo.aeropuerto_destino.nombre }}</p>
+    <p><strong>Fecha Salida:</strong> {{ vuelo.fecha_salida_programada|date:"d M Y H:i" }}</p>
+    <p><strong>Fecha Llegada:</strong> {{ vuelo.fecha_llegada_programada|date:"d M Y H:i" }}</p>
+
+    <div style="margin-top: 20px;">
+      <h3>Leyenda:</h3>
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="width: 20px; height: 20px; background-color: #f0f0f0; border: 2px solid #333; border-radius: 3px;"></div>
+          <span>Disponible</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="width: 20px; height: 20px; background-color: #e74c3c; border: 2px solid #333; border-radius: 3px;"></div>
+          <span>Ocupado</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="width: 20px; height: 20px; background-color: #2ecc71; border: 2px solid #27ae60; border-radius: 3px;"></div>
+          <span>Seleccionado</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="width: 20px; height: 20px; background-color: #3498db; border: 2px solid #2980b9; border-radius: 3px;"></div>
+          <span>Tu reserva</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="vuelo-mapa" style="display: flex; flex-direction: column; align-items: center;">
+    <div class="mapa-imagen" style="margin-bottom: 20px;">
+      <img src="{% static 'img/map2.png' %}" alt="Mapa del avión">
+      <div class="asientos">
+        {% for asiento in asientos %}
+          <button
+            class="asiento {% if asiento.estado_reserva == 'ocupado' %}ocupado{% elif asiento.estado_reserva == 'propio' %}propio{% endif %}"
+            data-asiento="{{ asiento.numero_asiento }}"
+            style="top: {{ asiento.posicion.top }}; left: {{ asiento.posicion.left }};"
+            {% if asiento.estado_reserva != 'disponible' %}disabled{% endif %}>
+            {{ asiento.numero_asiento }}
+          </button>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="acciones" style="width:100%; text-align:center; margin-top:20px;">
+      <button id="confirmar-btn" disabled>Confirmar Asiento</button>
+    </div>
+  </div>
+
+  <div class="vuelo-detalles">
+    <h2>Más Información</h2>
+    <p>Ejemplo de sección adicional</p>
+  </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/asientos.js' %}"></script>
 {% endblock %}

@@ -1,4 +1,4 @@
-def get_or_create_aerolinea(data):
+
 
 #  Funciones para guardar vuelos y entidades relacionadas en la base de datos
 from apps.vuelos.models import Vuelo, Aerolinea, Aeropuerto, ModeloAvion
@@ -45,7 +45,6 @@ def get_or_create_modelo_avion(codigo):
     )[0]
 
 
-def guardar_vuelo(data):
 
 @transaction.atomic
 def guardar_vuelo(data):

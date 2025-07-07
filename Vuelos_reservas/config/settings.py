@@ -22,9 +22,12 @@ INSTALLED_APPS = [
 
     # Tus apps
     'apps.usuarios',
-    'apps.vuelos',
+   
     'apps.reservas',
     'apps.notificaciones',
+    'apps.vuelos.apps.VuelosConfig',
+
+
 ]
 
 MIDDLEWARE = [

@@ -70,4 +70,6 @@ class Asiento(models.Model):
     tipo = models.CharField(max_length=50, blank=True)
     precio_adicional = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     disponible = models.BooleanField(default=True)
+    from django.conf import settings
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL, related_name='asientos_reservados')
     created_at = models.DateTimeField(auto_now_add=True)

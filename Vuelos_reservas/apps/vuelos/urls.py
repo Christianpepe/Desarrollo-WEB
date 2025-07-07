@@ -1,4 +1,3 @@
-
 # urls.py: Rutas de la app de vuelos
 from django.urls import path
 from . import views
@@ -15,4 +14,7 @@ urlpatterns = [
 
     # Detalle de un vuelo específico
     path('vuelos/<int:vuelo_id>/', views.detalle_vuelo, name='detalle_vuelo'),
+
+    # Reservar asiento (AJAX)
+    path('vuelos/<int:vuelo_id>/reservar-asiento/', views.reservar_asiento, name='reservar_asiento'),
 ]

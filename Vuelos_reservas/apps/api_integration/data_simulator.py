@@ -5,6 +5,8 @@ import random
 from datetime import datetime, timedelta
 from django.utils.timezone import make_aware
 from .constants import SIMULATED_DAYS, NUM_SIMULATED_FLIGHTS_PER_DAY
+# Importar la función de estimación de precio y duración de la API nativa
+from apps.api_nativa.utils import estimar_precio_y_duracion
 
 #  Datos base de ejemplo para simulación
 AEROLINEAS_SIMULADAS = [
@@ -40,6 +42,12 @@ def generate_simulated_flights():
             # Convertir a timezone-aware
             hora_salida = make_aware(hora_salida)
             hora_llegada = make_aware(hora_llegada)
+
+            # Calcular precio realista usando la función de la API nativa
+            precio_base, _ = estimar_precio_y_duracion(
+                origen['codigo_iata'], destino['codigo_iata'], modelo_avion, hora_salida, hora_llegada
+            )
+
             vuelos.append({
                 'numero_vuelo': f"{aerolinea['codigo_iata']}{random.randint(100, 999)}",
                 'aerolinea': aerolinea,
@@ -51,5 +59,6 @@ def generate_simulated_flights():
                 'fecha_llegada_programada': hora_llegada.isoformat(),
                 'modelo_avion': modelo_avion,
                 'flight_date': hora_salida.date().isoformat(),
+                'precio_base': precio_base,
             })
     return vuelos

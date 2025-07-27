@@ -25,8 +25,8 @@
                 <tr>
                     <td>{{ vuelo.numero_vuelo }}</td>
                     <td>{{ vuelo.aerolinea.nombre }}</td>
-                    <td>{{ vuelo.origen.nombre }}</td>
-                    <td>{{ vuelo.destino.nombre }}</td>
+                    <td>{{ vuelo.aeropuerto_origen.nombre }}</td>
+                    <td>{{ vuelo.aeropuerto_destino.nombre }}</td>
                     <td>{{ vuelo.fecha_salida_programada|date:"d M Y H:i" }}</td>
                     <td>{{ vuelo.fecha_llegada_programada|date:"d M Y H:i" }}</td>
                     <td>

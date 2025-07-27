@@ -1,1 +1,8 @@
-.env 
+# Ignorar archivos de entorno
+.env
+**/.env
+
+# Ignorar entornos virtuales comunes
+env/
+venv/
+

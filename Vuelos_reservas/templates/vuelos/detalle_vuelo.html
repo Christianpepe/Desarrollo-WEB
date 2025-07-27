@@ -102,6 +102,14 @@
     background-color: #bdc3c7;
     cursor: not-allowed;
   }
+
+  .clase-toggle {
+    margin-bottom: 1rem;
+  }
+
+  .clase-toggle .btn {
+    margin: 0 0.5rem;
+  }
 </style>
 {% endblock %}
 
@@ -140,21 +148,48 @@
   </div>
 
   <div class="vuelo-mapa" style="display: flex; flex-direction: column; align-items: center;">
-    <div class="mapa-imagen" style="margin-bottom: 20px;">
-      <img src="{% static 'img/map2.png' %}" alt="Mapa del avión">
+    <!-- Toggle de clase -->
+    <div class="clase-toggle" style="text-align:center; margin-bottom: 1rem;">
+      <button id="btn-economica" class="btn btn-primary active" type="button">Económica</button>
+      {% if vuelo.modelo_avion.tiene_primera_clase %}
+        <button id="btn-primera" class="btn btn-outline-primary" type="button">Primera clase</button>
+      {% endif %}
+    </div>
+    <!-- Mapas de asientos -->
+    <div id="mapa-economica" class="mapa-imagen" style="margin-bottom: 20px; display:block;">
+      <img src="{% static 'img/mapaa1.png' %}" alt="Mapa Económica">
       <div class="asientos">
         {% for asiento in asientos %}
-          <button
-            class="asiento {% if asiento.estado_reserva == 'ocupado' %}ocupado{% elif asiento.estado_reserva == 'propio' %}propio{% endif %}"
-            data-asiento="{{ asiento.numero_asiento }}"
-            style="top: {{ asiento.posicion.top }}; left: {{ asiento.posicion.left }};"
-            {% if asiento.estado_reserva != 'disponible' %}disabled{% endif %}>
-            {{ asiento.numero_asiento }}
-          </button>
+          {% if asiento.clase == "Económica" %}
+            <button
+              class="asiento asiento-economica {% if asiento.estado_reserva == 'ocupado' %}ocupado{% elif asiento.estado_reserva == 'propio' %}propio{% endif %}"
+              data-asiento="{{ asiento.numero_asiento }}"
+              style="top: {{ asiento.posicion.top }}; left: {{ asiento.posicion.left }};"
+              {% if asiento.estado_reserva != 'disponible' %}disabled{% endif %}>
+              {{ asiento.numero_asiento }}
+            </button>
+          {% endif %}
         {% endfor %}
       </div>
     </div>
-
+    {% if vuelo.modelo_avion.tiene_primera_clase %}
+    <div id="mapa-primera" class="mapa-imagen" style="margin-bottom: 20px; display:none;">
+      <img src="{% static 'img/MapFirst.png' %}" alt="Mapa Primera Clase">
+      <div class="asientos">
+        {% for asiento in asientos %}
+          {% if asiento.clase == "Primera" %}
+            <button
+              class="asiento asiento-primera {% if asiento.estado_reserva == 'ocupado' %}ocupado{% elif asiento.estado_reserva == 'propio' %}propio{% endif %}"
+              data-asiento="{{ asiento.numero_asiento }}"
+              style="top: {{ asiento.posicion.top }}; left: {{ asiento.posicion.left }};"
+              {% if asiento.estado_reserva != 'disponible' %}disabled{% endif %}>
+              {{ asiento.numero_asiento }}
+            </button>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
     <div class="acciones" style="width:100%; text-align:center; margin-top:20px;">
       <button id="confirmar-btn" disabled>Confirmar Asiento</button>
     </div>
@@ -162,11 +197,58 @@
 
   <div class="vuelo-detalles">
     <h2>Más Información</h2>
-    <p>Ejemplo de sección adicional</p>
+    <p>
+      Este es un <strong>vuelo redondo</strong> operado por <strong>{{ vuelo.aerolinea.nombre }}</strong>.
+      Precio en clase económica: <strong>${{ precio_economico }}</strong> MXN.<br>
+      Precio en primera clase: <strong>${{ precio_primera_clase }}</strong> MXN.<br>
+      {% with escala=None %}
+        {% for otro_vuelo in vuelo.aerolinea.vuelo_set.all %}
+          {% if otro_vuelo.id != vuelo.id and otro_vuelo.aeropuerto_origen == vuelo.aeropuerto_destino %}
+            {% with escala=otro_vuelo %}
+            {% endwith %}
+          {% endif %}
+        {% endfor %}
+        {% if escala %}
+          Este vuelo realiza escala en <strong>{{ escala.aeropuerto_origen.nombre }}</strong> antes de llegar a <strong>{{ escala.aeropuerto_destino.nombre }}</strong>.
+        {% else %}
+          Este vuelo no tiene escalas programadas.
+        {% endif %}
+      {% endwith %}
+      <br>
+      <strong>Duración estimada:</strong> {{ vuelo.duracion_minutos }} minutos.<br>
+      <strong>Terminal de salida:</strong> {{ vuelo.terminal_salida|default:'No especificada' }}<br>
+      <strong>Asientos disponibles:</strong> {{ vuelo.asientos_disponibles }}<br>
+      <strong>Última actualización:</strong> {{ vuelo.ultima_actualizacion|date:'d/m/Y H:i' }}
+    </p>
   </div>
 </div>
 {% endblock %}
 
 {% block extra_js %}
 <script src="{% static 'js/asientos.js' %}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const btnEconomica = document.getElementById('btn-economica');
+  const btnPrimera = document.getElementById('btn-primera');
+  const mapaEconomica = document.getElementById('mapa-economica');
+  const mapaPrimera = document.getElementById('mapa-primera');
+
+  if (btnEconomica) {
+    btnEconomica.addEventListener('click', function() {
+      btnEconomica.classList.add('active');
+      if (btnPrimera) btnPrimera.classList.remove('active');
+      mapaEconomica.style.display = 'block';
+      if (mapaPrimera) mapaPrimera.style.display = 'none';
+    });
+  }
+  if (btnPrimera) {
+    btnPrimera.addEventListener('click', function() {
+      btnPrimera.classList.add('active');
+      btnEconomica.classList.remove('active');
+      mapaEconomica.style.display = 'none';
+      mapaPrimera.style.display = 'block';
+    });
+  }
+});
+</script>
 {% endblock %}

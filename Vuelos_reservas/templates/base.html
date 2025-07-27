@@ -32,7 +32,9 @@
 </head>
 <body>
     <!-- Navbar -->
-    {% include "partials/navbar.html" %}
+    {% if request.resolver_match.url_name != 'ingreso' and request.resolver_match.url_name != 'registro' %}
+        {% include "partials/navbar.html" %}
+    {% endif %}
     
     <!-- Main Container -->
     <div class="main-container">

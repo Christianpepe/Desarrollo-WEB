@@ -18,17 +18,11 @@ function setupAutocomplete(inputId) {
 
     input.addEventListener("input", (e) => {
         const query = e.target.value.trim();
-
-        // Limpiar el timer anterior
         clearTimeout(debounceTimer);
-
-        // No buscar si hay menos de 2 caracteres
         if (query.length < 2) {
             datalist.innerHTML = "";
             return;
         }
-
-        // Esperar 300ms antes de hacer la búsqueda
         debounceTimer = setTimeout(() => {
             fetch(`/vuelos/api/autocompletar-aeropuertos/?q=${encodeURIComponent(query)}`)
                 .then(response => {
@@ -51,6 +45,22 @@ function setupAutocomplete(inputId) {
                     console.error('Error en la búsqueda de aeropuertos:', error);
                 });
         }, 300);
+    });
+
+    // Al perder el foco o al presionar Enter, si el valor tiene formato "XXX - Nombre", deja solo el nombre
+    function limpiarCodigoIATA() {
+        const val = input.value;
+        const match = val.match(/^[A-Z]{3}\s*-\s*(.+)$/);
+        if (match) {
+            input.value = match[1].trim();
+        }
+    }
+    input.addEventListener("change", limpiarCodigoIATA);
+    input.addEventListener("blur", limpiarCodigoIATA);
+    input.addEventListener("keydown", function(e) {
+        if (e.key === "Enter") {
+            setTimeout(limpiarCodigoIATA, 10);
+        }
     });
 }
 

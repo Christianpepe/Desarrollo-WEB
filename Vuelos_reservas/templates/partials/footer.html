@@ -32,8 +32,15 @@
                 <h6 class="fw-bold mb-3">Enlaces Rápidos</h6>
                 <ul class="list-unstyled">
                     <li class="mb-2">
-                        <a href="{% url 'inicio' %}" class="text-light opacity-75 text-decoration-none">
-                            <i class="fas fa-chevron-right me-1 small"></i>Inicio
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'inicio' %}" class="text-light opacity-75 text-decoration-none">
+                                <i class="fas fa-chevron-right me-1 small"></i>Inicio
+                            </a>
+                        {% else %}
+                            <span class="text-light opacity-50 text-decoration-none" style="cursor:not-allowed;">
+                                <i class="fas fa-chevron-right me-1 small"></i>Inicio
+                            </span>
+                        {% endif %}
                         </a>
                     </li>
                     <li class="mb-2">

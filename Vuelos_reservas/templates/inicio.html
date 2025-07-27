@@ -126,39 +126,46 @@
                     
                     <form id="search-form" action="{% url 'buscar_vuelos' %}" method="get">
                         <div class="row g-3">
-                            <div class="col-md-6 col-lg-3">
+                            <div class="col-md-6 col-lg-6">
                                 <label class="form-label fw-bold">
                                     <i class="fas fa-plane-departure me-1"></i>Origen
                                 </label>
-                                <input type="text" class="form-control" id="origen" name="origen" placeholder="Ciudad de origen" list="origen-list" autocomplete="off" required>
+                                <input type="text" class="form-control" id="origen" name="origen" placeholder="Ciudad de origen" list="origen-list" autocomplete="off">
                                 <datalist id="origen-list"></datalist>
                             </div>
-                            <div class="col-md-6 col-lg-3">
+                            <div class="col-md-6 col-lg-6">
                                 <label class="form-label fw-bold">
                                     <i class="fas fa-plane-arrival me-1"></i>Destino
                                 </label>
-                                <input type="text" class="form-control" id="destino" name="destino" placeholder="Ciudad de destino" list="destino-list" autocomplete="off" required>
+                                <input type="text" class="form-control" id="destino" name="destino" placeholder="Ciudad de destino" list="destino-list" autocomplete="off">
                                 <datalist id="destino-list"></datalist>
                             </div>
-                            <div class="col-md-6 col-lg-2">
-                                <label class="form-label fw-bold">
-                                    <i class="fas fa-calendar-alt me-1"></i>Salida
-                                </label>
-                                <input type="date" class="form-control" id="fecha_salida" name="fecha_salida" required>
-                            </div>
-                            <div class="col-md-6 col-lg-2">
-                                <label class="form-label fw-bold">
-                                    <i class="fas fa-calendar-alt me-1"></i>Regreso
-                                </label>
-                                <input type="date" class="form-control">
-                            </div>
-                            <div class="col-lg-2 d-flex align-items-end">
+                            <div class="col-lg-12 d-flex align-items-end mt-3">
                                 <button type="submit" class="btn btn-search w-100">
                                     <i class="fas fa-search me-2"></i>Buscar
                                 </button>
                             </div>
                         </div>
                     </form>
+                    <script>
+                    // Solo uno de los campos es obligatorio
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const form = document.getElementById('search-form');
+                        const origen = document.getElementById('origen');
+                        const destino = document.getElementById('destino');
+                        form.addEventListener('submit', function(e) {
+                            if (!origen.value.trim() && !destino.value.trim()) {
+                                e.preventDefault();
+                                origen.classList.add('is-invalid');
+                                destino.classList.add('is-invalid');
+                                alert('Debes ingresar al menos origen o destino para buscar vuelos.');
+                            } else {
+                                origen.classList.remove('is-invalid');
+                                destino.classList.remove('is-invalid');
+                            }
+                        });
+                    });
+                    </script>
 
                 </div>
             </div>

@@ -65,7 +65,7 @@ def autocompletar_aeropuertos(request):
         aeropuertos = Aeropuerto.objects.filter(
             Q(nombre__icontains=q) | Q(codigo_iata__icontains=q)
         )[:10]
-        resultados = [f"{a.codigo_iata} - {a.nombre}" for a in aeropuertos]
+        resultados = [a.nombre for a in aeropuertos]
     else:
         resultados = []
     return JsonResponse(resultados, safe=False)
@@ -113,21 +113,35 @@ def detalle_vuelo(request, vuelo_id):
    
     posiciones = {}
     filas = 14
-    columnas = ['A', 'B', 'C', 'D']
+    columnas_economica = ['A', 'B', 'C', 'D']
+    columnas_primera = ['E', 'F', 'G', 'H']
     top_inicial = 15
     top_incremento = 6.25
-    lefts = {
+    lefts_economica = {
         'A': 35.7,
         'B': 41.7,
         'C': 54.0,
         'D': 60.0
     }
-    # Posiciones para escritorio (por defecto)
+    lefts_primera = {
+        'E': 35.7,
+        'F': 41.7,
+        'G': 54.0,
+        'H': 60.0
+    }
+    # Posiciones para económica
     for fila in range(1, filas+1):
         top = top_inicial + (fila-1)*top_incremento
-        for col in columnas:
+        for col in columnas_economica:
             key = f"{fila}{col}"
-            left = lefts[col]
+            left = lefts_economica[col]
+            posiciones[key] = {"top": f"{top}%", "left": f"{left}%"}
+    # Posiciones para primera clase
+    for fila in range(1, filas+1):
+        top = top_inicial + (fila-1)*top_incremento
+        for col in columnas_primera:
+            key = f"{fila}{col}"
+            left = lefts_primera[col]
             posiciones[key] = {"top": f"{top}%", "left": f"{left}%"}
 
     # Ejemplo de posiciones para la primera fila en móvil (puedes extender para las demás filas)
@@ -152,9 +166,12 @@ def detalle_vuelo(request, vuelo_id):
         else:
             asiento.estado_reserva = "disponible"
     
+    from apps.api_integration.data_loader import calcular_precio_primera_clase
+    precio_primera_clase = calcular_precio_primera_clase(vuelo.precio_base)
     context = {
         'vuelo': vuelo,
-        'asientos': asientos
+        'asientos': asientos,
+        'precio_primera_clase': precio_primera_clase,
+        'precio_economico': vuelo.precio_base,
     }
-    
     return render(request, 'vuelos/detalle_vuelo.html', context)

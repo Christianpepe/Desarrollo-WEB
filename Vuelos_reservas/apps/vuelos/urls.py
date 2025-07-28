@@ -17,4 +17,7 @@ urlpatterns = [
 
     # Reservar asiento (AJAX)
     path('vuelos/<int:vuelo_id>/reservar-asiento/', views.reservar_asiento, name='reservar_asiento'),
+
+    # Página de agradecimiento tras reservar
+    path('agradecimiento-reserva/', views.agradecimiento_reserva, name='agradecimiento_reserva'),
 ]

@@ -34,9 +34,12 @@ def estimar_precio_y_duracion(vuelo, clase='economica', fecha=None):
     Estima el precio del vuelo y su duración basada en ese precio.
     Modifica el diccionario 'vuelo' agregando 'precio_base' y 'duracion_estimada_horas'.
     """
-    # 1. Precio base por letra
+    # 1. Precio base por letra y aleatoriedad
     letra = vuelo.get('codigo_vuelo', vuelo.get('numero_vuelo', 'A'))[0].upper()
-    precio = letras_precio.get(letra, random.randint(2000, 2800))
+    base = letras_precio.get(letra, random.randint(2000, 2800))
+    # Variabilidad extra: suma aleatoria entre -500 y +1500
+    variacion = random.randint(-500, 1500)
+    precio = base + variacion
 
     # 2. Aumento si destino/origen es turístico
     iata = None

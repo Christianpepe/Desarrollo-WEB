@@ -39,8 +39,10 @@ document.addEventListener('DOMContentLoaded', function () {
       .then(res => res.json())
       .then(data => {
         if (data.success) {
-          alert('¡Reserva exitosa!');
-          window.location.reload();
+          // Redirigir a página de agradecimiento en la misma pestaña
+          const vueloId = window.location.pathname.split('/').filter(Boolean).pop();
+          const url = `/vuelos/agradecimiento-reserva/?vuelo_id=${vueloId}&asiento=${encodeURIComponent(asientoNumero)}`;
+          window.location.href = url;
         } else {
           alert(data.error || 'Error al reservar asiento');
           confirmarBtn.disabled = false;

@@ -1,3 +1,8 @@
+# --- Vista de agradecimiento tras reservar ---
+from django.views.decorators.http import require_GET
+@require_GET
+def agradecimiento_reserva(request):
+    return render(request, 'vuelos/agradecimiento_reserva.html')
 # --- Vista para reservar asiento ---
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
@@ -30,6 +35,53 @@ def reservar_asiento(request, vuelo_id):
     asiento.usuario = user
     asiento.save(update_fields=["disponible", "usuario"])
     print(f"[DEBUG] Asiento actualizado y guardado. Disponible: {asiento.disponible}, Usuario: {asiento.usuario}")
+
+    # Crear la reserva y enviar correo
+    from apps.reservas.models import Reserva
+    from apps.notificaciones.utils import enviar_confirmacion_reserva
+    # Buscar si ya existe una reserva para este usuario y vuelo
+    import random, string
+    def generar_codigo_reserva():
+        return 'R' + ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
+    reserva, created = Reserva.objects.get_or_create(
+        usuario=user,
+        vuelo=vuelo,
+        defaults={
+            'codigo_reserva': generar_codigo_reserva(),
+            'estado': 'confirmada',
+            'precio_total': vuelo.precio_base or 0,
+            'pasajeros_total': 1,
+        }
+    )
+    # Si existe, actualizar estado y precio
+    if not created:
+        reserva.estado = 'confirmada'
+        reserva.precio_total = vuelo.precio_base or 0
+        reserva.save(update_fields=["estado", "precio_total", "updated_at"])
+    # Enlazar asiento al pasajero principal (usuario) o crearlo si no existe
+    try:
+        from apps.reservas.models import Pasajero
+        import datetime
+        pasajero, _ = Pasajero.objects.get_or_create(
+            reserva=reserva,
+            email=user.email,
+            defaults={
+                'asiento': asiento,
+                'nombre_completo': user.get_full_name() or user.username,
+                'tipo_documento': '',
+                'numero_documento': '',
+                'fecha_nacimiento': datetime.date(1900, 1, 1),
+                'nacionalidad': '',
+                'telefono': '',
+            }
+        )
+        if pasajero.asiento != asiento:
+            pasajero.asiento = asiento
+            pasajero.save(update_fields=["asiento"])
+    except Exception as e:
+        print(f"[RESERVA] No se pudo asignar asiento a pasajero: {e}")
+    # Enviar correo de confirmación
+    enviar_confirmacion_reserva(reserva, usuario_email=user.email)
     return JsonResponse({'success': True, 'asiento': asiento.numero_asiento})
 # apps/vuelos/views.py
 from django.shortcuts import render, get_object_or_404

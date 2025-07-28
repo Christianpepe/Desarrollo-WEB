@@ -1,15 +1,21 @@
+
 import os
 from pathlib import Path
 from dotenv import load_dotenv
 from decouple import config
 
+load_dotenv()
 
-import os
+# Configuración de correo SMTP para Gmail
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+
 HCAPTCHA_SITE_KEY = os.getenv('HCAPTCHA_SITE_KEY')
 HCAPTCHA_SECRET_KEY = os.getenv('HCAPTCHA_SECRET_KEY')
-
-
-load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 

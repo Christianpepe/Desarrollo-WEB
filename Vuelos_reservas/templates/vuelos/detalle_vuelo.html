@@ -109,6 +109,31 @@
 
   .clase-toggle .btn {
     margin: 0 0.5rem;
+    font-weight: 600;
+    font-size: 1.1em;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transition: background 0.2s, color 0.2s;
+  }
+  #btn-economica.active, #btn-economica:focus {
+    background: linear-gradient(90deg, #43e97b 0%, #38f9d7 100%);
+    color: #fff;
+    border: none;
+  }
+  #btn-primera.active, #btn-primera:focus {
+    background: linear-gradient(90deg, #56ccf2 0%, #2f80ed 100%);
+    color: #fff;
+    border: none;
+  }
+  #btn-primera {
+    border: 2px solid #2f80ed;
+    color: #2f80ed;
+    background: #fff;
+  }
+  #btn-economica {
+    border: 2px solid #43e97b;
+    color: #43e97b;
+    background: #fff;
   }
 </style>
 {% endblock %}
@@ -196,30 +221,51 @@
   </div>
 
   <div class="vuelo-detalles">
-    <h2>Más Información</h2>
-    <p>
-      Este es un <strong>vuelo redondo</strong> operado por <strong>{{ vuelo.aerolinea.nombre }}</strong>.
-      Precio en clase económica: <strong>${{ precio_economico }}</strong> MXN.<br>
-      Precio en primera clase: <strong>${{ precio_primera_clase }}</strong> MXN.<br>
-      {% with escala=None %}
-        {% for otro_vuelo in vuelo.aerolinea.vuelo_set.all %}
-          {% if otro_vuelo.id != vuelo.id and otro_vuelo.aeropuerto_origen == vuelo.aeropuerto_destino %}
-            {% with escala=otro_vuelo %}
-            {% endwith %}
-          {% endif %}
-        {% endfor %}
-        {% if escala %}
-          Este vuelo realiza escala en <strong>{{ escala.aeropuerto_origen.nombre }}</strong> antes de llegar a <strong>{{ escala.aeropuerto_destino.nombre }}</strong>.
-        {% else %}
-          Este vuelo no tiene escalas programadas.
-        {% endif %}
-      {% endwith %}
-      <br>
-      <strong>Duración estimada:</strong> {{ vuelo.duracion_minutos }} minutos.<br>
-      <strong>Terminal de salida:</strong> {{ vuelo.terminal_salida|default:'No especificada' }}<br>
-      <strong>Asientos disponibles:</strong> {{ vuelo.asientos_disponibles }}<br>
-      <strong>Última actualización:</strong> {{ vuelo.ultima_actualizacion|date:'d/m/Y H:i' }}
-    </p>
+    <h2 class="info-title"><i class="fas fa-info-circle me-2 text-primary"></i>Más Información</h2>
+    <div class="info-card-extra bg-light rounded shadow-sm p-4 mb-4">
+      <div class="row g-3 align-items-center">
+        <div class="col-md-6 mb-2">
+          <i class="fas fa-plane text-primary me-2"></i>
+          <strong>Vuelo redondo</strong> operado por <strong>{{ vuelo.aerolinea.nombre }}</strong>
+        </div>
+        <div class="col-md-6 mb-2">
+          <i class="fas fa-dollar-sign text-success me-2"></i>
+          <span>Clase económica:</span> <strong>${{ precio_economico }}</strong> MXN
+          {% if vuelo.modelo_avion.tiene_primera_clase %}<span class="ms-3">| Primera clase: <strong>${{ precio_primera_clase }}</strong> MXN</span>{% endif %}
+        </div>
+        <div class="col-md-6 mb-2">
+          <i class="fas fa-clock text-info me-2"></i>
+          <span>Duración estimada:</span> <strong>{{ vuelo.duracion_minutos }} min</strong>
+        </div>
+        <div class="col-md-6 mb-2">
+          <i class="fas fa-door-open text-secondary me-2"></i>
+          <span>Terminal de salida:</span> <strong>{{ vuelo.terminal_salida|default:'No especificada' }}</strong>
+        </div>
+        <div class="col-md-6 mb-2">
+          <i class="fas fa-chair text-warning me-2"></i>
+          <span>Asientos disponibles:</span> <strong>{{ vuelo.asientos_disponibles }}</strong>
+        </div>
+        <div class="col-md-6 mb-2">
+          <i class="fas fa-calendar-alt text-primary me-2"></i>
+          <span>Última actualización:</span> <strong>{{ vuelo.ultima_actualizacion|date:'d/m/Y H:i' }}</strong>
+        </div>
+        <div class="col-12 mt-2">
+          <i class="fas fa-route text-success me-2"></i>
+          {% with escala=None %}
+            {% for otro_vuelo in vuelo.aerolinea.vuelo_set.all %}
+              {% if otro_vuelo.id != vuelo.id and otro_vuelo.aeropuerto_origen == vuelo.aeropuerto_destino %}
+                {% with escala=otro_vuelo %}{% endwith %}
+              {% endif %}
+            {% endfor %}
+            {% if escala %}
+              Este vuelo realiza escala en <strong>{{ escala.aeropuerto_origen.nombre }}</strong> antes de llegar a <strong>{{ escala.aeropuerto_destino.nombre }}</strong>.
+            {% else %}
+              Este vuelo no tiene escalas programadas.
+            {% endif %}
+          {% endwith %}
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 {% endblock %}

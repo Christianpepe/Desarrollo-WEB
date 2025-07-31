@@ -1,7 +1,7 @@
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from django.conf import settings
-
+#CORONA GARCIA CHRISTIAN JAVIER
 def enviar_confirmacion_reserva(reserva, usuario_email=None):
     """
     Envía un correo de confirmación de reserva usando una plantilla HTML.

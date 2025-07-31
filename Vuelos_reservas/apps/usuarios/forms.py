@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import Usuario
 from hcaptcha.fields import hCaptchaField
-
+#CORONA GARCIA CHRISTIAN JAVIER
 class CustomUserCreationForm(UserCreationForm):
     hcaptcha = hCaptchaField()
 

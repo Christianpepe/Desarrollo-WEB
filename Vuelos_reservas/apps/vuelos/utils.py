@@ -1,5 +1,5 @@
 from apps.vuelos.models import Asiento, Vuelo
-
+#CORONA GARCIA CHRISTIAN JAVIER
 def generar_asientos_para_vuelo(vuelo):
     """
     Genera asientos automáticamente para el vuelo según su modelo de avión.
@@ -23,7 +23,7 @@ def generar_asientos_para_vuelo(vuelo):
                 columna=letra,
                 clase="Económica",
             ))
-    # Primera clase (si aplica)
+    # Primera clase 
     if getattr(modelo, 'tiene_primera_clase', False):
         for fila in range(1, filas + 1):
             for col_idx in range(columnas):

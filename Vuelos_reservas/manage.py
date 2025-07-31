@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import os
 import sys
-
+#CORONA GARCIA CHRISTIAN JAVIER
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')

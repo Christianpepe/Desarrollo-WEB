@@ -1,7 +1,7 @@
 from django.db import models
 from apps.usuarios.models import Usuario
 from apps.vuelos.models import Vuelo, Asiento
-
+#CORONA GARCIA CHRISTIAN JAVIER
 class Reserva(models.Model):
     codigo_reserva = models.CharField(max_length=10, unique=True)
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)

@@ -1,5 +1,5 @@
 #  Funciones para guardar vuelos y entidades relacionadas en la base de datos
-
+#CORONA GARCIA CHRISTIAN JAVIER
 from apps.vuelos.models import Vuelo, Aerolinea, Aeropuerto, ModeloAvion
 from apps.vuelos.utils import generar_asientos_para_vuelo
 from django.db import transaction
@@ -30,7 +30,7 @@ def get_or_create_aeropuerto(data):
             'activo': True
         }
     )
-    # Si existe pero el IATA es diferente y no está vacío, actualiza el IATA
+    # Si existe pero el IATA es diferente 
     if not creado and data.get('codigo_iata') and aeropuerto.codigo_iata != data.get('codigo_iata'):
         aeropuerto.codigo_iata = data.get('codigo_iata')
         aeropuerto.save()

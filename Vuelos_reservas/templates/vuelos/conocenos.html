@@ -1,0 +1,491 @@
+{% extends "base.html" %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conócenos - FlightPlatform</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #0d6efd;
+            --secondary-color: #6c757d;
+            --success-color: #198754;
+            --dark-color: #212529;
+            --gradient-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .navbar-custom {
+            background: var(--dark-color) !important;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .hero-section {
+            background: var(--gradient-bg);
+            color: white;
+            padding: 80px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><pattern id="plane-pattern" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M20,50 L30,45 L70,50 L30,55 Z" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100%" height="100%" fill="url(%23plane-pattern)"/></svg>');
+            opacity: 0.1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--primary-color);
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+
+        .values-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .values-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: var(--gradient-bg);
+        }
+
+        .values-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .values-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 25px;
+            background: var(--gradient-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .values-card:hover .values-icon {
+            transform: scale(1.1) rotate(360deg);
+        }
+
+        .values-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--dark-color);
+            margin-bottom: 15px;
+        }
+
+        .values-description {
+            color: #666;
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        .stats-section {
+            background: var(--dark-color);
+            color: white;
+            padding: 80px 0;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: #ccc;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .team-section {
+            padding: 100px 0;
+            background: #f8f9fa;
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background: var(--primary-color);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+        }
+
+        .timeline-item {
+            padding: 20px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            right: -10px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            top: 30px;
+        }
+
+        .timeline-item.left {
+            left: 0;
+        }
+
+        .timeline-item.right {
+            left: 50%;
+        }
+
+        .timeline-item.right::after {
+            left: -10px;
+        }
+
+        .timeline-content {
+            padding: 20px 30px;
+            background-color: white;
+            position: relative;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .timeline-year {
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .cta-section {
+            background: var(--gradient-bg);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .btn-custom {
+            background: white;
+            color: var(--primary-color);
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-custom:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 60px 0 40px;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .timeline::after {
+                left: 31px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            
+            .timeline-item::after {
+                left: 21px;
+            }
+            
+            .timeline-item.right {
+                left: 0%;
+            }
+        }
+
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .floating-plane {
+            position: absolute;
+            color: rgba(255,255,255,0.1);
+            animation: float 15s linear infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateX(-100px) translateY(0px);
+            }
+            100% {
+                transform: translateX(calc(100vw + 100px)) translateY(-50px);
+            }
+        }
+    </style>
+</head>
+<body>
+
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="floating-elements">
+            <i class="fas fa-plane floating-plane" style="top: 20%; animation-delay: 0s; font-size: 2rem;"></i>
+            <i class="fas fa-plane floating-plane" style="top: 60%; animation-delay: 5s; font-size: 1.5rem;"></i>
+            <i class="fas fa-plane floating-plane" style="top: 40%; animation-delay: 10s; font-size: 1.8rem;"></i>
+        </div>
+        <div class="container hero-content">
+            <div class="row align-items-center">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h1 class="display-4 fw-bold mb-4">Conócenos</h1>
+                    <p class="lead mb-4">VueloReserva es tu aliado digital para planificar, buscar y reservar vuelos de manera fácil y segura. Nuestra misión es conectar personas y destinos, facilitando cada etapa de tu experiencia de viaje desde el primer clic.</p>
+                    <div class="d-flex justify-content-center gap-4 mt-5">
+                        <div class="text-center">
+                            <i class="fas fa-globe-americas fa-3x mb-3"></i>
+                            <h5>Global</h5>
+                        </div>
+                        <div class="text-center">
+                            <i class="fas fa-shield-alt fa-3x mb-3"></i>
+                            <h5>Confiable</h5>
+                        </div>
+                        <div class="text-center">
+                            <i class="fas fa-heart fa-3x mb-3"></i>
+                            <h5>Cercano</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Valores Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h2 class="section-title">Nuestros Valores</h2>
+                    <p class="lead text-muted">Los principios que guían cada decisión y nos definen como empresa</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="values-card text-center">
+                        <div class="values-icon">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <h3 class="values-title">Misión</h3>
+                        <p class="values-description">
+                            Ofrecer la mejor experiencia digital en reservas de vuelos, combinando tecnología avanzada, información clara y atención personalizada para que cada usuario encuentre el viaje ideal.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="values-card text-center">
+                        <div class="values-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <h3 class="values-title">Visión</h3>
+                        <p class="values-description">
+                            Convertirnos en la referencia de reservas de vuelos en Latinoamérica y el mundo, integrando nuevas rutas, aerolíneas y servicios que simplifiquen la vida de los viajeros.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="values-card text-center">
+                        <div class="values-icon">
+                            <i class="fas fa-gem"></i>
+                        </div>
+                        <h3 class="values-title">Valores</h3>
+                        <p class="values-description">
+                            <strong>Transparencia:</strong> Precios claros y sin sorpresas<br>
+                            <strong>Innovación:</strong> Herramientas inteligentes para comparar y elegir vuelos<br>
+                            <strong>Soporte:</strong> Asistencia rápida y cercana en cada paso<br>
+                            <strong>Accesibilidad:</strong> Opciones para todos los perfiles de viajero
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   
+
+    <!-- Historia Timeline -->
+    <section class="team-section">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h2 class="section-title">Nuestra Historia</h2>
+                    <p class="lead text-muted">El camino que nos ha llevado hasta aquí</p>
+                </div>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <div class="timeline-year">2020</div>
+                        <h4><i class="fas fa-lightbulb text-warning"></i> El Inicio</h4>
+                        <p>Detectamos la necesidad de una web que permitiera comparar y reservar vuelos de forma sencilla, rápida y confiable para todos los usuarios.</p>
+                    </div>
+                </div>
+                <div class="timeline-item right">
+                    <div class="timeline-content">
+                        <div class="timeline-year">2021</div>
+                        <h4><i class="fas fa-rocket text-primary"></i> Lanzamiento</h4>
+                        <p>Presentamos VueloReserva con integración a las principales aerolíneas y una interfaz pensada para facilitar la búsqueda y reserva de vuelos.</p>
+                    </div>
+                </div>
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <div class="timeline-year">2022</div>
+                        <h4><i class="fas fa-trophy text-success"></i> Reconocimiento</h4>
+                        <p>Superamos el millón de reservas y fuimos reconocidos por la comunidad de viajeros como la plataforma más confiable y fácil de usar.</p>
+                    </div>
+                </div>
+                <div class="timeline-item right">
+                    <div class="timeline-content">
+                        <div class="timeline-year">2023</div>
+                        <h4><i class="fas fa-globe text-info"></i> Expansión Global</h4>
+                        <p>Expandimos nuestros servicios a más de 200 destinos, incorporando nuevas rutas y alianzas estratégicas con aerolíneas internacionales.</p>
+                    </div>
+                </div>
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <div class="timeline-year">2024</div>
+                        <h4><i class="fas fa-star text-warning"></i> Presente</h4>
+                        <p>Actualmente, ayudamos a miles de viajeros cada día a encontrar el vuelo perfecto, manteniendo nuestro compromiso con la innovación y el servicio.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Animación de contadores
+        function animateCounter(element, target) {
+            let current = 0;
+            const increment = target / 100;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                element.textContent = Math.floor(current).toLocaleString();
+            }, 20);
+        }
+
+        // Observador para activar animaciones
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counters = entry.target.querySelectorAll('.stat-number');
+                    counters.forEach(counter => {
+                        const target = parseInt(counter.dataset.target);
+                        animateCounter(counter, target);
+                    });
+                    observer.unobserve(entry.target);
+                }
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const statsSection = document.querySelector('.stats-section');
+            if (statsSection) {
+                observer.observe(statsSection);
+            }
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+{% endblock %}

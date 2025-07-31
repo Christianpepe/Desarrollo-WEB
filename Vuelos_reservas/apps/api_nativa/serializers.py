@@ -1,5 +1,5 @@
 # Aquí se definirán los serializadores para la API nativa de vuelos
-
+#CORONA GARCIA CHRISTIAN JAVIER
 from rest_framework import serializers
 from apps.vuelos.models import Vuelo
 

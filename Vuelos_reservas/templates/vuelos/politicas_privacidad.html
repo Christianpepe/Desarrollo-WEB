@@ -1,0 +1,358 @@
+{% extends "base.html" %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Políticas de Privacidad</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .privacy-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            margin: 2rem auto;
+            max-width: 1000px;
+            overflow: hidden;
+        }
+
+        .privacy-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .privacy-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20"><path d="M0 20L100 0H100V20Z" fill="rgba(255,255,255,0.05)"/></svg>');
+            background-size: 100px 20px;
+        }
+
+        .privacy-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .privacy-header .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .privacy-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            color: #3498db;
+            position: relative;
+            z-index: 1;
+        }
+
+        .privacy-content {
+            padding: 2rem;
+        }
+
+        .section-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            border-left: 5px solid #3498db;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .section-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            color: #2c3e50;
+        }
+
+        .section-icon {
+            font-size: 2rem;
+            margin-right: 1rem;
+            color: #3498db;
+            min-width: 50px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .section-content {
+            color: #555;
+            line-height: 1.7;
+        }
+
+        .section-content p {
+            margin-bottom: 1rem;
+        }
+
+        .section-content ul {
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #e3f2fd 0%, #f0f8ff 100%);
+            border: 1px solid #3498db;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .contact-info {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .contact-info h3 {
+            margin-bottom: 1rem;
+            color: #3498db;
+        }
+
+        .btn-custom {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            border: none;
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 1rem;
+        }
+
+        .btn-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.3);
+            color: white;
+        }
+
+        .last-updated {
+            text-align: center;
+            color: #7f8c8d;
+            font-style: italic;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #ecf0f1;
+        }
+
+        @media (max-width: 768px) {
+            .privacy-container {
+                margin: 1rem;
+                border-radius: 15px;
+            }
+
+            .privacy-header {
+                padding: 2rem 1.5rem;
+            }
+
+            .privacy-header h1 {
+                font-size: 2rem;
+            }
+
+            .privacy-content {
+                padding: 1.5rem;
+            }
+
+            .section-card {
+                padding: 1.5rem;
+            }
+
+            .section-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .section-icon {
+                margin-right: 0;
+                margin-bottom: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="privacy-container">
+            <div class="privacy-header">
+                <div class="privacy-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h1>Políticas de Privacidad</h1>
+                <p class="subtitle">Tu privacidad y seguridad son nuestra prioridad</p>
+            </div>
+
+            <div class="privacy-content">
+                <div class="section-card">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <h2 class="section-title">Información General</h2>
+                    </div>
+                    <div class="section-content">
+                        <p>En VueloReserva, tu privacidad y seguridad son fundamentales. Esta política describe cómo gestionamos tus datos personales al utilizar nuestra plataforma para buscar, comparar y reservar vuelos nacionales e internacionales.</p>
+                        <div class="highlight-box">
+                            <strong><i class="fas fa-exclamation-triangle text-warning me-2"></i>Importante:</strong> Al reservar o navegar en VueloReserva, aceptas las prácticas aquí descritas y el uso responsable de tu información para mejorar tu experiencia de viaje.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <h2 class="section-title">Información que Recopilamos</h2>
+                    </div>
+                    <div class="section-content">
+                        <p>Recopilamos información necesaria para procesar tus reservas, personalizar recomendaciones y garantizar la seguridad de tus transacciones:</p>
+                        
+                        <h5><i class="fas fa-user me-2 text-primary"></i>Información Personal</h5>
+                        <ul>
+                            <li>Nombre completo </li>
+                            <li>Correo electrónico  </li>
+                            <li>número de teléfono</li>
+                        </ul>
+
+                        <h5><i class="fas fa-plane me-2 text-primary"></i>Información de Viaje</h5>
+                        <ul>
+                            <li>Destinos buscados y fechas de viaje</li>
+                            <li>Preferencias de asientos</li>
+                            <li>Historial de reservas </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                        <h2 class="section-title">Cómo Utilizamos tu Información</h2>
+                    </div>
+                    <div class="section-content">
+                        <p>Usamos tus datos para:</p>
+                        <ul>
+                            <li><strong>Reservar y gestionar vuelos:</strong> Procesar tus solicitudes y pagos de manera segura</li>
+                            <li><strong>Mejorar la plataforma:</strong> Analizar el uso para optimizar funcionalidades y experiencia</li>
+                            <li><strong>Garantizar seguridad:</strong> Detectar y prevenir actividades fraudulentas</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-share-alt"></i>
+                        </div>
+                        <h2 class="section-title">Compartir Información</h2>
+                    </div>
+                    <div class="section-content">
+                        <p>Solo compartimos tus datos cuando es indispensable para completar tu reserva o cumplir obligaciones legales:</p>
+                        <ul>
+                            <li><strong>Aerolíneas asociadas:</strong> Para emitir boletos y gestionar tu viaje</li>
+                            <li><strong>Autoridades:</strong> Cuando lo exige la ley o por motivos de seguridad</li>
+                            <li><strong>Proveedores tecnológicos:</strong> Para mantener y mejorar la operatividad de VueloReserva</li>
+                        </ul>
+                        <div class="highlight-box">
+                            <strong><i class="fas fa-lock text-success me-2"></i>Compromiso:</strong> Jamás comercializamos tus datos personales. Tu información solo se usa para brindarte el mejor servicio posible.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h2 class="section-title">Seguridad de los Datos</h2>
+                    </div>
+                    <div class="section-content">
+                        <p>Protegemos tu información con tecnología de punta y protocolos estrictos:</p>
+                        <ul>
+                            <li><strong>Cifrado SSL:</strong> Tus datos viajan seguros en todo momento</li>
+                            <li><strong>Acceso limitado:</strong> Solo personal autorizado puede ver información sensible</li>
+                            <li><strong>Monitoreo y respaldo:</strong> Vigilamos y respaldamos la plataforma para evitar pérdidas o accesos no autorizados</li>
+                        </ul>
+                    </div>
+                </div>
+
+
+                <div class="section-card">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-sync-alt"></i>
+                        </div>
+                        <h2 class="section-title">Actualizaciones de la Política</h2>
+                    </div>
+                    <div class="section-content">
+                        <p>Actualizamos esta política cuando hay cambios en la plataforma, en la ley o en nuestros servicios. Te avisaremos por correo o en la web si hay modificaciones importantes. Revisa esta página periódicamente para estar informado.</p>
+                    </div>
+                </div>
+
+                <div class="contact-info">
+                    <h3><i class="fas fa-envelope me-2"></i>¿Tienes Preguntas?</h3>
+                    <p>Si tienes alguna pregunta sobre esta política de privacidad o sobre cómo manejamos tu información personal, no dudes en contactarnos:</p>
+                    
+                    <div class="row mt-3">
+                        <div class="col-md-4">
+                            <i class="fas fa-envelope fa-2x mb-2"></i>
+                            <p><strong>Email</strong><br>vueloreservasrservicio@gmail.com</p>
+                        </div>
+                        <div class="col-md-4">
+                            <i class="fas fa-map-marker-alt fa-2x mb-2"></i>
+                            <p><strong>Oficina</strong><br>Aguascalientes, México</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="last-updated">
+                    <p><i class="fas fa-calendar-alt me-2"></i>Última actualización: 31 de Julio de 2025</p>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+{% endblock %}

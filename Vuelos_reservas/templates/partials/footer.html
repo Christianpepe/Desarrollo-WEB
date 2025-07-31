@@ -11,20 +11,6 @@
                 <p class="text-light opacity-75 mb-3">
                     Tu plataforma de confianza para encontrar y reservar los mejores vuelos al mejor precio.
                 </p>
-                <div class="social-links">
-                    <a href="#" class="text-light me-3" data-bs-toggle="tooltip" title="Facebook">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="#" class="text-light me-3" data-bs-toggle="tooltip" title="Twitter">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a href="#" class="text-light me-3" data-bs-toggle="tooltip" title="Instagram">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a href="#" class="text-light" data-bs-toggle="tooltip" title="LinkedIn">
-                        <i class="fab fa-linkedin-in"></i>
-                    </a>
-                </div>
             </div>
             
             <!-- Quick Links -->
@@ -44,18 +30,13 @@
                         </a>
                     </li>
                     <li class="mb-2">
-                        <a href="#" class="text-light opacity-75 text-decoration-none">
+                        <a href="{% url 'lista_vuelos' %}" class="text-light opacity-75 text-decoration-none">
                             <i class="fas fa-chevron-right me-1 small"></i>Vuelos
                         </a>
                     </li>
                     <li class="mb-2">
-                        <a href="#" class="text-light opacity-75 text-decoration-none">
+                        <a href="{% url 'mis_reservas' %}" class="text-light opacity-75 text-decoration-none">
                             <i class="fas fa-chevron-right me-1 small"></i>Mis Reservas
-                        </a>
-                    </li>
-                    <li class="mb-2">
-                        <a href="#" class="text-light opacity-75 text-decoration-none">
-                            <i class="fas fa-chevron-right me-1 small"></i>Ofertas
                         </a>
                     </li>
                 </ul>
@@ -67,24 +48,10 @@
                 <ul class="list-unstyled">
                     <li class="mb-2">
                         <a href="#" class="text-light opacity-75 text-decoration-none">
-                            <i class="fas fa-question-circle me-2"></i>Centro de Ayuda
-                        </a>
-                    </li>
-                    <li class="mb-2">
-                        <a href="#" class="text-light opacity-75 text-decoration-none">
-                            <i class="fas fa-phone me-2"></i>Contactanos
-                        </a>
-                    </li>
-                    <li class="mb-2">
-                        <a href="#" class="text-light opacity-75 text-decoration-none">
                             <i class="fas fa-shield-alt me-2"></i>Política de Privacidad
                         </a>
                     </li>
-                    <li class="mb-2">
-                        <a href="#" class="text-light opacity-75 text-decoration-none">
-                            <i class="fas fa-file-contract me-2"></i>Términos de Uso
-                        </a>
-                    </li>
+                  
                 </ul>
             </div>
             
@@ -94,11 +61,7 @@
                 <div class="contact-info">
                     <div class="d-flex align-items-center mb-2">
                         <i class="fas fa-envelope me-2 text-primary"></i>
-                        <span class="text-light opacity-75">info@vueloreserva.com</span>
-                    </div>
-                    <div class="d-flex align-items-center mb-2">
-                        <i class="fas fa-phone me-2 text-primary"></i>
-                        <span class="text-light opacity-75">+52 (449) 123-4567</span>
+                        <span class="text-light opacity-75">vueloreservasrservicio@gmail.com</span>
                     </div>
                     <div class="d-flex align-items-start mb-2">
                         <i class="fas fa-map-marker-alt me-2 text-primary mt-1"></i>
@@ -118,7 +81,7 @@
             </div>
             <div class="col-md-6 text-md-end">
                 <small class="text-light opacity-50">
-                    Desarrollado con <i class="fas fa-heart text-danger"></i> por Christian Corona
+                     por Christian Corona
                 </small>
             </div>
         </div>

@@ -3,7 +3,7 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 from decouple import config
-
+#CORONA GARCIA CHRISTIAN JAVIER
 load_dotenv()
 
 # Configuración de correo SMTP para Gmail

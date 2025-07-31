@@ -1,5 +1,5 @@
 
-
+#CORONA GARCIA CHRISTIAN JAVIER
 #  Generador de vuelos simulados para pruebas 
 import random
 from datetime import datetime, timedelta

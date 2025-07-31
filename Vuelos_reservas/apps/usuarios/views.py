@@ -1,6 +1,6 @@
 # Este archivo contiene las vistas principales para el registro, autenticación
 # y gestión de la sesión de usuarios en el sistema.
-
+#CORONA GARCIA CHRISTIAN JAVIER
 
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout

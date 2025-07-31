@@ -8,7 +8,7 @@ from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
-
+#CORONA GARCIA CHRISTIAN JAVIER
 @login_required
 @require_POST
 def reservar_asiento(request, vuelo_id):
@@ -58,7 +58,7 @@ def reservar_asiento(request, vuelo_id):
         reserva.estado = 'confirmada'
         reserva.precio_total = vuelo.precio_base or 0
         reserva.save(update_fields=["estado", "precio_total", "updated_at"])
-    # Enlazar asiento al pasajero principal (usuario) o crearlo si no existe
+    # Enlazar asiento al pasajero principal 
     try:
         from apps.reservas.models import Pasajero
         import datetime
@@ -135,11 +135,24 @@ def inicio(request):
 
 # --- Vista de todos los vuelos ---
 def vuelos_disponibles(request):
+    origen = request.GET.get('origen', '').strip()
+    destino = request.GET.get('destino', '').strip()
+    fecha_salida = request.GET.get('fecha_salida', '')
     vuelos = Vuelo.objects.select_related(
         'aerolinea', 'aeropuerto_origen', 'aeropuerto_destino'
     ).order_by('fecha_salida_programada')
+    if origen:
+        vuelos = vuelos.filter(aeropuerto_origen__nombre__icontains=origen)
+    if destino:
+        vuelos = vuelos.filter(aeropuerto_destino__nombre__icontains=destino)
+    if fecha_salida:
+        vuelos = vuelos.filter(fecha_salida_programada__date=fecha_salida)
     context = {
-        'todos_vuelos': vuelos
+        'todos_vuelos': vuelos,
+        'origen': origen,
+        'destino': destino,
+        'fecha_salida': fecha_salida,
+        'busqueda_realizada': bool(origen or destino or fecha_salida)
     }
     return render(request, 'vuelos/lista_vuelos.html', context)
 
@@ -196,7 +209,7 @@ def detalle_vuelo(request, vuelo_id):
             left = lefts_primera[col]
             posiciones[key] = {"top": f"{top}%", "left": f"{left}%"}
 
-    # Ejemplo de posiciones para la primera fila en móvil (puedes extender para las demás filas)
+    # Ejemplo de posiciones para la primera fila en móvil 
     posiciones_mobile = {
         "1A": {"top": "0%", "left": "0%"},
         "1B": {"top": "8%", "left": "38%"},
@@ -227,3 +240,20 @@ def detalle_vuelo(request, vuelo_id):
         'precio_economico': vuelo.precio_base,
     }
     return render(request, 'vuelos/detalle_vuelo.html', context)
+
+# --- Vista de recomendaciones de vuelos ---
+def recomendaciones_vuelos(request):
+    import random
+    from apps.vuelos.models import Vuelo
+    vuelos = list(Vuelo.objects.select_related('aerolinea', 'aeropuerto_origen', 'aeropuerto_destino'))
+    recomendados = random.sample(vuelos, min(5, len(vuelos)))
+    context = {
+        'todos_vuelos': recomendados
+    }
+    return render(request, 'vuelos/recomendaciones.html', context)
+
+def conocenos(request):
+    return render(request, 'vuelos/conocenos.html')
+
+def politicas_privacidad(request):
+    return render(request, 'vuelos/politicas_privacidad.html')

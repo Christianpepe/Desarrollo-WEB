@@ -23,6 +23,27 @@
                     <span>Ver Vuelos</span>
                 </a>
             </li>
+            <!-- Recomendaciones -->
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'recomendaciones_vuelos' %}">
+                    <i class="fas fa-star me-1"></i>
+                    <span>Recomendaciones</span>
+                </a>
+            </li>
+            <!-- Conócenos -->
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'conocenos' %}">
+                    <i class="fas fa-users me-1"></i>
+                    <span>Conócenos</span>
+                </a>
+            </li>
+            <!-- Políticas de Privacidad -->
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'politicas_privacidad' %}">
+                    <i class="fas fa-file-alt me-1"></i>
+                    <span>Políticas de Privacidad</span>
+                </a>
+            </li>
 
             {% if user.is_authenticated %}
                 <!-- Authenticated user menu -->
@@ -38,14 +59,11 @@
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="#">
+                            <a class="dropdown-item" href="{% url 'mis_reservas' %}">
                                 <i class="fas fa-ticket-alt me-2"></i>Mis Reservas
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="#">
-                                <i class="fas fa-user-edit me-2"></i>Mi Perfil
-                            </a>
                         </li>
                         <li><hr class="dropdown-divider"></li>
                         <li>

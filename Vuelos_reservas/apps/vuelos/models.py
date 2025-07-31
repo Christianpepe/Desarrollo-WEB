@@ -1,11 +1,11 @@
 
 # models.py: Modelos principales del sistema de vuelos
 from django.db import models
-
+#CORONA GARCIA CHRISTIAN JAVIER
 # --- Aeropuerto ---
 class Aeropuerto(models.Model):
-    codigo_iata = models.CharField(max_length=10, blank=True, null=True)  # Código IATA (opcional)
-    codigo_icao = models.CharField(max_length=10, unique=True)            # Código ICAO (único)
+    codigo_iata = models.CharField(max_length=10, blank=True, null=True)  # Código IATA 
+    codigo_icao = models.CharField(max_length=10, unique=True)            # Código ICAO 
     nombre = models.CharField(max_length=100)                            # Nombre del aeropuerto
     ciudad = models.CharField(max_length=100)
     pais = models.CharField(max_length=100)

@@ -3,7 +3,7 @@
 scheduler.py
 Maneja  la carga de vuelos y los simulados en el sistema y trasnforma los datos para la BDD.
 """
-
+#CORONA GARCIA CHRISTIAN JAVIER
 from datetime import datetime, timedelta
 from apps.api_integration.api_client import get_real_time_flights
 from apps.api_integration.data_transformer import transformar_vuelo_a_modelo

@@ -1,7 +1,7 @@
 
 # Este archivo define el modelo de usuario extendido para el sistema,
 # agregando campos adicionales a los del usuario estándar de Django.
-
+#CORONA GARCIA CHRISTIAN JAVIER
 
 from django.contrib.auth.models import AbstractUser
 from django.db import models

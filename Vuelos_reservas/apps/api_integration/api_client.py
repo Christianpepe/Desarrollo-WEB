@@ -5,6 +5,7 @@ from datetime import datetime
 from decouple import config
 
 # Configuración de la API
+#CORONA GARCIA CHRISTIAN JAVIER
 RAPIDAPI_KEY = config("RAPIDAPI_KEY") 
 RAPIDAPI_HOST = "aerodatabox.p.rapidapi.com"
 BASE_URL = f"https://{RAPIDAPI_HOST}/flights/airports/icao"

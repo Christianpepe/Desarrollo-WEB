@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
-
+#CORONA GARCIA CHRISTIAN JAVIER
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('apps.usuarios.urls')),  # Enrutas a tu app de usuarios

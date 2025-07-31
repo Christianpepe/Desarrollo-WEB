@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Mis Reservas</h2>
+    {% if reservas %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Vuelo</th>
+                    <th>Origen</th>
+                    <th>Destino</th>
+                    <th>Salida</th>
+                    <th>Estado</th>
+                    <th>Precio Total</th>
+                    <th>Pasajeros / Asientos</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reserva in reservas %}
+                <tr>
+                    <td>{{ reserva.codigo_reserva }}</td>
+                    <td>{{ reserva.vuelo.numero_vuelo }}</td>
+                    <td>{{ reserva.vuelo.aeropuerto_origen.nombre }}</td>
+                    <td>{{ reserva.vuelo.aeropuerto_destino.nombre }}</td>
+                    <td>{{ reserva.vuelo.fecha_salida_programada|date:"d M Y H:i" }}</td>
+                    <td>{{ reserva.estado }}</td>
+                    <td>${{ reserva.precio_total }}</td>
+                    <td>
+                        <ul class="list-unstyled mb-0">
+                        {% for pasajero in reserva.pasajero_set.all %}
+                            <li>
+                                {{ pasajero.nombre_completo }}
+                                {% if pasajero.asiento %}
+                                    - Asiento: <strong>{{ pasajero.asiento.numero_asiento }}</strong>
+                                {% endif %}
+                                {% if pasajero.asiento and pasajero.asiento.precio %}
+                                    - Precio: ${{ pasajero.asiento.precio }}
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No tienes reservas registradas.</p>
+    {% endif %}
+</div>
+{% endblock %}

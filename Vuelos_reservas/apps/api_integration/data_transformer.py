@@ -1,7 +1,7 @@
 ## data_transformer.py: Transforma los datos crudos de la API a formato de modelo Django
 from datetime import datetime
 from pytz import timezone
-
+#CORONA GARCIA CHRISTIAN JAVIER
 def trunc20(val):
     """Trunca un valor a 20 caracteres para campos de longitud limitada."""
     return str(val)[:20] if val else ''

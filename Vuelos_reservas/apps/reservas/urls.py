@@ -1,5 +1,5 @@
 from django.urls import path
-
+#CORONA GARCIA CHRISTIAN JAVIER
 urlpatterns = [
-    # Por ahora vacío, o agrega tus rutas aquí más adelante
+    path('mis-reservas/', __import__('apps.reservas.views').reservas.views.mis_reservas, name='mis_reservas'),
 ]

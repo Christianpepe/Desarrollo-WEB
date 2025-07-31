@@ -22,3 +22,5 @@ pytz==2024.1  # Para manejo de zonas horarias
 django-debug-toolbar==4.2.0  # Solo para debug
 
 dj-database-url==2.1.0
+
+django-hcaptcha==0.10.0

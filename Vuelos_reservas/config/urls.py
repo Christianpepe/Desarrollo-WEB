@@ -7,5 +7,5 @@ urlpatterns = [
     path('vuelos/', include('apps.vuelos.urls')),  # Enruta a la app de vuelos
     path('reservas/', include('apps.reservas.urls')),  # Enruta a la app de reservas
     path('api/', include('apps.api_nativa.urls')),  # Enruta a la API nativa
-    path('accounts/', include('django.contrib.auth.urls')),  # Rutas de login/logout por defecto
+    #path('accounts/', include('django.contrib.auth.urls')),   Rutas de login/logout por defecto
 ]

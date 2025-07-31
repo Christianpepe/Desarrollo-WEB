@@ -1,12 +1,11 @@
 
 import os
 from pathlib import Path
-from dotenv import load_dotenv
+# from dotenv import load_dotenv  # Eliminado para producción
 from decouple import config
 # Para Railway: importar dj-database-url
 import dj_database_url
 #CORONA GARCIA CHRISTIAN JAVIER
-load_dotenv()
 
 # Configuración de correo SMTP para Gmail
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

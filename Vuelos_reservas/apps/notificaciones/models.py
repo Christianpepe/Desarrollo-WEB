@@ -1,6 +1,6 @@
 from django.db import models
-from apps.usuarios.models import Usuario
-from apps.reservas.models import Reserva
+from Vuelos_reservas.apps.usuarios.models import Usuario
+from Vuelos_reservas.apps.reservas.models import Reserva
 
 class Notificacion(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)

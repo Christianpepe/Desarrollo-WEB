@@ -1,7 +1,7 @@
 #  Funciones para guardar vuelos y entidades relacionadas en la base de datos
 #CORONA GARCIA CHRISTIAN JAVIER
-from apps.vuelos.models import Vuelo, Aerolinea, Aeropuerto, ModeloAvion
-from apps.vuelos.utils import generar_asientos_para_vuelo
+from Vuelos_reservas.apps.vuelos.models import Vuelo, Aerolinea, Aeropuerto, ModeloAvion
+from Vuelos_reservas.apps.vuelos.utils import generar_asientos_para_vuelo
 from django.db import transaction
 # Importar la función de estimación de precio y duración de la API nativa
 from apps.api_nativa.utils import estimar_precio_y_duracion

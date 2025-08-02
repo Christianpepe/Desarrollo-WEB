@@ -1,7 +1,7 @@
 # Aquí se definirán los serializadores para la API nativa de vuelos
 #CORONA GARCIA CHRISTIAN JAVIER
 from rest_framework import serializers
-from apps.vuelos.models import Vuelo
+from Vuelos_reservas.apps.vuelos.models import Vuelo
 
 class VueloSerializer(serializers.ModelSerializer):
     duracion_estimada_horas = serializers.SerializerMethodField()

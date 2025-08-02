@@ -1,6 +1,6 @@
 from django.db import models
-from apps.usuarios.models import Usuario
-from apps.vuelos.models import Vuelo, Asiento
+from Vuelos_reservas.apps.usuarios.models import Usuario
+from Vuelos_reservas.apps.vuelos.models import Vuelo, Asiento
 #CORONA GARCIA CHRISTIAN JAVIER
 class Reserva(models.Model):
     codigo_reserva = models.CharField(max_length=10, unique=True)

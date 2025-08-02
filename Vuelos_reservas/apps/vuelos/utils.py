@@ -1,4 +1,4 @@
-from apps.vuelos.models import Asiento, Vuelo
+from Vuelos_reservas.apps.vuelos.models import Asiento, Vuelo
 #CORONA GARCIA CHRISTIAN JAVIER
 def generar_asientos_para_vuelo(vuelo):
     """

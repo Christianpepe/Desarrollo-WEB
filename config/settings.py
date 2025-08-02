@@ -100,7 +100,7 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/login/'
 LOGIN_URL = '/ingreso/'
 
-AUTH_USER_MODEL = 'Vuelos_reservas.apps.usuarios.Usuario'
+AUTH_USER_MODEL = 'usuarios.Usuario'
 
 # Configuración de autenticación
 AUTHENTICATION_BACKENDS = (

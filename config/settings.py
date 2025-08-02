@@ -33,14 +33,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # Tus apps
-    'apps.usuarios',
-   
-    'apps.reservas',
-    'apps.notificaciones',
-    'apps.vuelos.apps.VuelosConfig',
-
-
+    # Tus apps (rutas absolutas)
+    'Vuelos_reservas.apps.usuarios',
+    'Vuelos_reservas.apps.reservas',
+    'Vuelos_reservas.apps.notificaciones',
+    'Vuelos_reservas.apps.vuelos.apps.VuelosConfig',
 ]
 
 MIDDLEWARE = [
@@ -103,7 +100,7 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/login/'
 LOGIN_URL = '/ingreso/'
 
-AUTH_USER_MODEL = 'usuarios.Usuario'
+AUTH_USER_MODEL = 'Vuelos_reservas.apps.usuarios.Usuario'
 
 # Configuración de autenticación
 AUTHENTICATION_BACKENDS = (

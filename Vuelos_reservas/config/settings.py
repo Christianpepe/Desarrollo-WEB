@@ -6,7 +6,8 @@ from decouple import config
 # Para Railway: importar dj-database-url
 import dj_database_url
 #CORONA GARCIA CHRISTIAN JAVIER
-
+from dotenv import load_dotenv
+load_dotenv()
 # Configuración de correo SMTP para Gmail
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
@@ -23,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("SECRET_KEY", "clave_de_prueba")
 
 DEBUG = True
-ALLOWED_HOSTS = ['desarrollo-web-production.up.railway.app', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -71,10 +72,17 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'config.wsgi.application'
-
 DATABASES = {
-    'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('DB_NAME', 'Vuelos'),
+        'USER': os.getenv('DB_USER', 'postgres'),
+        'PASSWORD': os.getenv('DB_PASSWORD', '12345'),
+        'HOST': os.getenv('DB_HOST', 'localhost'),
+        'PORT': os.getenv('DB_PORT', '5432'),
+    }
 }
+
 
 AUTH_PASSWORD_VALIDATORS = []
 
@@ -85,19 +93,16 @@ USE_I18N = True
 USE_TZ = True
 
 
+
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / "static"]
-STATIC_ROOT = BASE_DIR / "staticfiles"
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / "media"
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Permitir CSRF desde Railway
-CSRF_TRUSTED_ORIGINS = [
-    'https://desarrollo-web-production.up.railway.app'
-]
+
 
 
 LOGIN_REDIRECT_URL = '/'

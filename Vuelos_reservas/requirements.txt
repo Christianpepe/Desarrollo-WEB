@@ -28,3 +28,4 @@ django-hcaptcha==0.2.0
 djangorestframework==3.15.1
 
 gunicorn==22.0.0
+whitenoise==6.6.0

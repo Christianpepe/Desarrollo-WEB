@@ -27,5 +27,5 @@ urlpatterns = [
     path('conocenos/', views.conocenos, name='conocenos'),
     # Políticas de Privacidad
     path('politicas_privacidad/', views.politicas_privacidad, name='politicas_privacidad'),
-    path('run-scheduler-test/', views_test.run_scheduler_test, name='run_scheduler_test'),
+    
 ]

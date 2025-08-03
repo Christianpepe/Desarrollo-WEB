@@ -1,3 +1,11 @@
+# Seguridad y CSRF para Render
+CSRF_TRUSTED_ORIGINS = [
+    'https://desarrollo-web-wvx7.onrender.com',
+    'https://*.onrender.com',
+]
+SECURE_CROSS_ORIGIN_OPENER_POLICY = None
+SECURE_SSL_REDIRECT = False  # Render maneja SSL
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 import os
 from pathlib import Path

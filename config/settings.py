@@ -93,6 +93,9 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Asegura que Django recoja archivos estáticos desde la carpeta static/ a nivel raíz
+STATICFILES_DIRS = [BASE_DIR / "static"]
+
 
 
 

@@ -71,6 +71,7 @@ def validar_hcaptcha(request):
     }
     r = requests.post('https://hcaptcha.com/siteverify', data=data)
     result = r.json()
+    print('hCaptcha response:', result)  # Depuración en consola
     return result.get('success', False)
 
 

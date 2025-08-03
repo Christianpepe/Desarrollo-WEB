@@ -49,7 +49,7 @@ def transformar_vuelo_a_modelo(vuelo_api, es_simulado=False):
             llegada_programada = parse_datetime_safe(arrival.get("scheduledTime", {}).get("local")) if arrival else None
             salida_real = parse_datetime_safe(departure.get("actualTime", {}).get("local")) if departure else None
             llegada_real = parse_datetime_safe(arrival.get("actualTime", {}).get("local")) if arrival else None
-            # Si falta la llegada, igualar a la salida (para cumplir NOT NULL)
+            # Si falta la llegada, igualar a la salida 
             if not llegada_programada and salida_programada:
                 llegada_programada = salida_programada
             if not salida_programada and llegada_programada:

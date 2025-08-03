@@ -4,7 +4,7 @@ from .models import Usuario
 from hcaptcha.fields import hCaptchaField
 #CORONA GARCIA CHRISTIAN JAVIER
 class CustomUserCreationForm(UserCreationForm):
-    # hcaptcha = hCaptchaField()  # ← Comentar esta línea
+    # hcaptcha = hCaptchaField()  
      
     class Meta:
         model = Usuario
@@ -23,7 +23,7 @@ class CustomUserCreationForm(UserCreationForm):
         return user
 
 class CustomAuthenticationForm(AuthenticationForm):
-    # hcaptcha = hCaptchaField()  # ← Comentar esta línea
+    # hcaptcha = hCaptchaField() 
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

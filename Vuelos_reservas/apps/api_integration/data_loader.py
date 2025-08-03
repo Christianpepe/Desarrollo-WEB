@@ -90,12 +90,12 @@ def guardar_vuelo(data):
         # Calcular precio realista SOLO con los datos que da la API
         aeropuerto_origen = origen_dict.get('codigo_iata', 'ZZZ')
         aeropuerto_destino = destino_dict.get('codigo_iata', 'ZZZ')
-        # Si solo tienes uno, pon el otro como 'ZZZ' (default)
+        
         if aeropuerto_origen == 'ZZZ' and aeropuerto_destino != 'ZZZ':
             aeropuerto_origen = 'ZZZ'
         if aeropuerto_destino == 'ZZZ' and aeropuerto_origen != 'ZZZ':
             aeropuerto_destino = 'ZZZ'
-        # Simular fechas solo para cumplir con la base, pero no usarlas en el cálculo
+        # Simular fechas solo para cumplir con la base
         from Vuelos_reservas.apps.api_nativa.utils import estimar_precio_y_duracion_from_iata
         try:
             precio_base, _ = estimar_precio_y_duracion_from_iata(

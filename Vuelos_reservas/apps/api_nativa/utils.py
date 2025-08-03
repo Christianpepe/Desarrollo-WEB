@@ -8,7 +8,7 @@ def estimar_precio_y_duracion_from_iata(origen_iata, destino_iata, modelo, clase
     }
     vuelo = estimar_precio_y_duracion(vuelo, clase=clase, fecha=fecha)
     return vuelo['precio_base'], vuelo['duracion_estimada_horas']
-# Aquí irá la lógica de estimación de precios y duración de vuelos
+
 #CORONA GARCIA CHRISTIAN JAVIER
 import random
 from datetime import datetime

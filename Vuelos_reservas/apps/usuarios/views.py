@@ -19,15 +19,16 @@ def registro(request):
     Permite a un nuevo usuario registrarse en el sistema.
     """
     if request.method == 'POST':
-        if not validar_hcaptcha(request):
-            messages.error(request, "Verificación de seguridad fallida. Intenta de nuevo.")
-            return redirect('registro')
         form = CustomUserCreationForm(request.POST)
-        if form.is_valid():
+        hcaptcha_ok = validar_hcaptcha(request)
+        if form.is_valid() and hcaptcha_ok:
             user = form.save()
             login(request, user)
             messages.success(request, 'Registro exitoso. ¡Bienvenido!')
-            return redirect('ingreso')  # Redirige a la página de ingreso tras registrar
+            return redirect('ingreso')
+        else:
+            if not hcaptcha_ok:
+                messages.error(request, "Verificación de seguridad fallida. Intenta de nuevo.")
     else:
         form = CustomUserCreationForm()
     context = {

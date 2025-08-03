@@ -1,6 +1,7 @@
 # urls.py: Rutas de la app de vuelos
 from django.urls import path
 from . import views
+from . import views_test
 #CORONA GARCIA CHRISTIAN JAVIER
 urlpatterns = [
     # Búsqueda de vuelos
@@ -26,4 +27,5 @@ urlpatterns = [
     path('conocenos/', views.conocenos, name='conocenos'),
     # Políticas de Privacidad
     path('politicas_privacidad/', views.politicas_privacidad, name='politicas_privacidad'),
+    path('run-scheduler-test/', views_test.run_scheduler_test, name='run_scheduler_test'),
 ]

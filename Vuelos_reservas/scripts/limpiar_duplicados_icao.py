@@ -7,7 +7,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 django.setup()
 
-from apps.vuelos.models import Aeropuerto
+from Vuelos_reservas.apps.vuelos.models import Aeropuerto
 
 def limpiar_duplicados_icao():
     print("Buscando duplicados de codigo_icao...")

@@ -1,4 +1,4 @@
-from apps.api_integration.data_loader import guardar_vuelo
+from Vuelos_reservas.apps.api_integration.data_loader import guardar_vuelo
 from datetime import datetime
 
 # Ejemplo de datos para dos aeropuertos diferentes (diferente ICAO)

@@ -37,8 +37,8 @@ def reservar_asiento(request, vuelo_id):
     print(f"[DEBUG] Asiento actualizado y guardado. Disponible: {asiento.disponible}, Usuario: {asiento.usuario}")
 
     # Crear la reserva y enviar correo
-    from apps.reservas.models import Reserva
-    from apps.notificaciones.utils import enviar_confirmacion_reserva
+    from Vuelos_reservas.apps.reservas.models import Reserva
+    from Vuelos_reservas.apps.notificaciones.utils import enviar_confirmacion_reserva
     # Buscar si ya existe una reserva para este usuario y vuelo
     import random, string
     def generar_codigo_reserva():
@@ -60,7 +60,7 @@ def reservar_asiento(request, vuelo_id):
         reserva.save(update_fields=["estado", "precio_total", "updated_at"])
     # Enlazar asiento al pasajero principal 
     try:
-        from apps.reservas.models import Pasajero
+        from Vuelos_reservas.apps.reservas.models import Pasajero
         import datetime
         pasajero, _ = Pasajero.objects.get_or_create(
             reserva=reserva,
@@ -89,7 +89,7 @@ from django.db.models import Q
 from django.http import JsonResponse
 from django.views.decorators.http import require_GET
 from django.utils import timezone
-from apps.vuelos.models import Vuelo, Aeropuerto, Asiento
+from Vuelos_reservas.apps.vuelos.models import Vuelo, Aeropuerto, Asiento
 
 # --- Vista de búsqueda de vuelos ---
 def buscar_vuelos(request):
@@ -231,7 +231,7 @@ def detalle_vuelo(request, vuelo_id):
         else:
             asiento.estado_reserva = "disponible"
     
-    from apps.api_integration.data_loader import calcular_precio_primera_clase
+    from Vuelos_reservas.apps.api_integration.data_loader import calcular_precio_primera_clase
     precio_primera_clase = calcular_precio_primera_clase(vuelo.precio_base)
     context = {
         'vuelo': vuelo,
@@ -244,7 +244,7 @@ def detalle_vuelo(request, vuelo_id):
 # --- Vista de recomendaciones de vuelos ---
 def recomendaciones_vuelos(request):
     import random
-    from apps.vuelos.models import Vuelo
+    from Vuelos_reservas.apps.vuelos.models import Vuelo
     vuelos = list(Vuelo.objects.select_related('aerolinea', 'aeropuerto_origen', 'aeropuerto_destino'))
     recomendados = random.sample(vuelos, min(5, len(vuelos)))
     context = {

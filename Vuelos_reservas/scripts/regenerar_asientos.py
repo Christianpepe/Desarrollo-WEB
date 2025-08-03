@@ -1,5 +1,5 @@
-from apps.vuelos.models import Vuelo
-from apps.vuelos.utils import generar_asientos_para_vuelo
+from Vuelos_reservas.apps.vuelos.models import Vuelo
+from Vuelos_reservas.apps.vuelos.utils import generar_asientos_para_vuelo
 
 # Script para regenerar asientos de todos los vuelos existentes
 

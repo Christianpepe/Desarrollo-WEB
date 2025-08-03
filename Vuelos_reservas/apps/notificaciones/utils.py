@@ -17,7 +17,7 @@ def enviar_confirmacion_reserva(reserva, usuario_email=None):
     # Buscar asiento del pasajero principal (usuario)
     asiento = None
     try:
-        from apps.reservas.models import Pasajero
+        from Vuelos_reservas.apps.reservas.models import Pasajero
         pasajero = Pasajero.objects.filter(reserva=reserva, email=reserva.usuario.email).first()
         if pasajero:
             asiento = pasajero.asiento

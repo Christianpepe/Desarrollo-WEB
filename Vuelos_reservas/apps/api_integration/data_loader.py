@@ -4,7 +4,7 @@ from Vuelos_reservas.apps.vuelos.models import Vuelo, Aerolinea, Aeropuerto, Mod
 from Vuelos_reservas.apps.vuelos.utils import generar_asientos_para_vuelo
 from django.db import transaction
 # Importar la función de estimación de precio y duración de la API nativa
-from apps.api_nativa.utils import estimar_precio_y_duracion
+from Vuelos_reservas.apps.api_nativa.utils import estimar_precio_y_duracion
 
 # Aerolínea 
 def get_or_create_aerolinea(data):
@@ -96,7 +96,7 @@ def guardar_vuelo(data):
         if aeropuerto_destino == 'ZZZ' and aeropuerto_origen != 'ZZZ':
             aeropuerto_destino = 'ZZZ'
         # Simular fechas solo para cumplir con la base, pero no usarlas en el cálculo
-        from apps.api_nativa.utils import estimar_precio_y_duracion_from_iata
+        from Vuelos_reservas.apps.api_nativa.utils import estimar_precio_y_duracion_from_iata
         try:
             precio_base, _ = estimar_precio_y_duracion_from_iata(
                 aeropuerto_origen,

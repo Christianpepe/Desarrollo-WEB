@@ -10,9 +10,9 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 django.setup()
 
-from apps.vuelos.models import Vuelo, Aeropuerto, Aerolinea, ModeloAvion, Asiento
-from apps.reservas.models import Reserva, Pasajero
-from apps.notificaciones.models import Notificacion
+from Vuelos_reservas.apps.vuelos.models import Vuelo, Aeropuerto, Aerolinea, ModeloAvion, Asiento
+from Vuelos_reservas.apps.reservas.models import Reserva, Pasajero
+from Vuelos_reservas.apps.notificaciones.models import Notificacion
 
 def limpiar_datos():
     print("🚨 Iniciando limpieza de datos...")

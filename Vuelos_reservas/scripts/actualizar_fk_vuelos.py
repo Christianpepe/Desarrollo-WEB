@@ -8,7 +8,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 django.setup()
 
-from apps.vuelos.models import Vuelo, Aeropuerto
+from Vuelos_reservas.apps.vuelos.models import Vuelo, Aeropuerto
 
 # Actualiza los FK de aeropuerto_origen y aeropuerto_destino en vuelos
 

@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 from django.utils.timezone import make_aware
 from .constants import SIMULATED_DAYS, NUM_SIMULATED_FLIGHTS_PER_DAY
 # Importar la función de estimación de precio y duración de la API nativa
-from apps.api_nativa.utils import estimar_precio_y_duracion
+from Vuelos_reservas.apps.api_nativa.utils import estimar_precio_y_duracion
 
 #  Datos base de ejemplo para simulación
 AEROLINEAS_SIMULADAS = [

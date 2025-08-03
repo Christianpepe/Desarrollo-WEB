@@ -7,7 +7,7 @@ from django.contrib.auth import login, logout
 from django.contrib import messages
 from .forms import CustomUserCreationForm, CustomAuthenticationForm
 from django.contrib.auth.decorators import login_required
-from apps.vuelos.models import Vuelo
+from Vuelos_reservas.apps.vuelos.models import Vuelo
 from django.utils import timezone
 import requests
 from django.conf import settings

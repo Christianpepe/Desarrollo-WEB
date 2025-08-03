@@ -13,7 +13,7 @@ from django.http import JsonResponse
 @require_POST
 def reservar_asiento(request, vuelo_id):
     import json
-    from apps.vuelos.models import Asiento, Vuelo
+    from Vuelos_reservas.apps.vuelos.models import Asiento, Vuelo
     user = request.user
     data = json.loads(request.body)
     numero_asiento = data.get('numero_asiento')

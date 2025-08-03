@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("SECRET_KEY", "clave_de_prueba")
 
 DEBUG = False
-ALLOWED_HOSTS = ['tu-nombre.onrender.com']
+ALLOWED_HOSTS = ['desarrollo-web-wvx7.onrender.com', 'localhost', '127.0.0.1']
 
 INSTALLED_APPS = [
     'django.contrib.admin',

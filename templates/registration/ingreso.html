@@ -51,6 +51,9 @@
                         <label for="{{ form.password.id_for_label }}" class="form-label fw-bold">
                             <i class="fas fa-lock me-1"></i>Contraseña
                         </label>
+                    <div class="mb-3">
+                        <div class="h-captcha" data-sitekey="{{ hcaptcha_site_key }}"></div>
+                    </div>
                         <div style="position:relative;">
                             {{ form.password }}
                             <button type="button" class="toggle-password-btn" id="togglePassword" tabindex="-1">

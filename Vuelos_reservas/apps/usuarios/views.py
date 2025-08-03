@@ -20,23 +20,21 @@ def registro(request):
     """
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
-        # hcaptcha_ok = validar_hcaptcha(request)  # ← Comentar esta línea
-        
-        if form.is_valid():  # ← Quitar "&& hcaptcha_ok"
+        hcaptcha_ok = validar_hcaptcha(request)
+        if form.is_valid() and hcaptcha_ok:
             user = form.save()
             login(request, user)
             messages.success(request, 'Registro exitoso. ¡Bienvenido!')
-            return redirect('inicio')  # ← Cambiar a 'inicio' en lugar de 'ingreso'
+            return redirect('inicio')
         else:
-            # if not hcaptcha_ok:  # ← Comentar esto
-            #     messages.error(request, "Verificación de seguridad fallida. Intenta de nuevo.")
+            if not hcaptcha_ok:
+                messages.error(request, "Verificación de seguridad fallida. Intenta de nuevo.")
             messages.error(request, "Por favor corrige los errores del formulario.")
     else:
         form = CustomUserCreationForm()
-    
     context = {
         'form': form,
-        # 'hcaptcha_site_key': settings.HCAPTCHA_SITE_KEY  # ← Comentar esta línea también
+        'hcaptcha_site_key': settings.HCAPTCHA_SITE_KEY
     }
     return render(request, 'registration/registro.html', context)
 
@@ -46,24 +44,22 @@ def ingreso(request):
     Permite al usuario autenticarse en el sistema.
     """
     if request.method == 'POST':
-        # if not validar_hcaptcha(request):  # ← Comentar estas líneas
-        #     messages.error(request, "Verificación de seguridad fallida. Intenta de nuevo.")
-        #     return redirect('ingreso')
-        
+        hcaptcha_ok = validar_hcaptcha(request)
         form = CustomAuthenticationForm(request, data=request.POST)
-        if form.is_valid():
+        if form.is_valid() and hcaptcha_ok:
             user = form.get_user()
             login(request, user)
             messages.success(request, '¡Ingreso exitoso!')
             return redirect('inicio')
         else:
+            if not hcaptcha_ok:
+                messages.error(request, "Verificación de seguridad fallida. Intenta de nuevo.")
             messages.error(request, "Credenciales incorrectas.")
     else:
         form = CustomAuthenticationForm()
-    
     context = {
         'form': form,
-        # 'hcaptcha_site_key': settings.HCAPTCHA_SITE_KEY  # ← Comentar esta línea
+        'hcaptcha_site_key': settings.HCAPTCHA_SITE_KEY
     }
     return render(request, 'registration/ingreso.html', context)
 

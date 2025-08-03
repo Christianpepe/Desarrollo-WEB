@@ -1,7 +1,7 @@
 # urls.py: Rutas de la app de vuelos
 from django.urls import path
 from . import views
-from . import views_test
+
 #CORONA GARCIA CHRISTIAN JAVIER
 urlpatterns = [
     # Búsqueda de vuelos

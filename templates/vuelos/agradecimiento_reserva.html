@@ -13,11 +13,11 @@
 </head>
 <body>
 <div class="container">
-    <img src="/static/img/Logo.png" alt="VueloReserva Logo" class="logo">
-    <h2>¡Gracias por tu reserva!</h2>
+    <img src="{{ empresa.logo|default:'/static/img/Logo.png' }}" alt="Logo de la empresa" class="logo">
+    <h2>¡Hola {{ user.first_name|default:user.username|default:'Usuario' }}!</h2>
     <p>
-        Tu asiento <strong id="asiento-num"></strong> ha sido reservado exitosamente.<br>
-        En breve recibirás un correo de confirmación.<br>
+        ¡Tu asiento <strong id="asiento-num"></strong> ha sido reservado exitosamente!<br>
+        En breve recibirás un correo de confirmación con los detalles de tu vuelo.<br>
     </p>
     <a id="btn-detalle" class="btn" href="#" target="_self">Ver detalles del vuelo</a>
 </div>
